@@ -1,0 +1,1 @@
+export { RoomMessageTextarea } from "./RoomMessageTextarea";

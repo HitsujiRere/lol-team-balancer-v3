@@ -1,0 +1,1 @@
+export { SummonersTable } from "./SummonersTable";
