@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
 import { formatRiotId } from "@/types/riotId";
+import { DebugMessageButton } from "./components/DebugMessageButton";
 import { findRiotIds } from "./utils/findRiotIds";
 
 export const RoomMessageTextarea = () => {
@@ -44,6 +45,10 @@ export const RoomMessageTextarea = () => {
         >
           <XIcon />
         </Button>
+      </div>
+
+      <div>
+        <DebugMessageButton setMessage={setMessage} />
       </div>
     </div>
   );
