@@ -1,3 +1,6 @@
+"use client";
+
+import { useShallow } from "zustand/shallow";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
@@ -8,8 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
 
 export const SummonersTable = () => {
+  const roomNames = useRoomNamesStore(useShallow((state) => state.names()));
+
   return (
     <div className="relative grid gap-2">
       <Label>サモナーテーブル</Label>
@@ -25,13 +31,15 @@ export const SummonersTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>
-                <Checkbox defaultChecked />
-              </TableCell>
-              <TableCell>サモナー #JP1</TableCell>
-              <TableCell>Gold 1</TableCell>
-            </TableRow>
+            {roomNames.map((name) => (
+              <TableRow key={name}>
+                <TableCell>
+                  <Checkbox defaultChecked />
+                </TableCell>
+                <TableCell>{name}</TableCell>
+                <TableCell>Gold 1</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>

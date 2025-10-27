@@ -1,5 +1,6 @@
 import { HouseIcon, SwordsIcon } from "lucide-react";
 import { RoomMessageTextarea } from "@/features/RoomMessageTextarea";
+import { RoomSummonerInput } from "@/features/RoomSummonerInput";
 import { SummonersTable } from "@/features/SummonersTable";
 import { Header } from "./_components/Header";
 
@@ -7,6 +8,7 @@ export default function Home() {
   return (
     <>
       <Header />
+
       <main className="grid grid-cols-[1fr_2px_1fr] pb-8">
         <section className="flex flex-col gap-6 p-4">
           <h2 className="flex items-center gap-1 text-xl">
@@ -14,6 +16,7 @@ export default function Home() {
             カスタムルーム
           </h2>
           <RoomMessageTextarea />
+          <RoomSummonerInput />
           <SummonersTable />
         </section>
 
