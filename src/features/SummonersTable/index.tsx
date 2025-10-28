@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
+import { SummonerRow } from "./components/SummonerRow";
 
 export const SummonersTable = () => {
   const roomNames = useRoomNamesStore(useShallow((state) => state.names()));
@@ -28,18 +29,20 @@ export const SummonersTable = () => {
               </TableHead>
               <TableHead>サモナー名</TableHead>
               <TableHead>ランク</TableHead>
+              <TableHead>聞き専</TableHead>
+              <TableHead>削除</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {roomNames.map((name) => (
-              <TableRow key={name}>
-                <TableCell>
-                  <Checkbox defaultChecked />
+            {roomNames.length > 0 ? (
+              roomNames.map((name) => <SummonerRow key={name} name={name} />)
+            ) : (
+              <TableRow>
+                <TableCell colSpan={99} className="h-24 text-center text-base">
+                  ルームメッセージをコピペすることでも簡単に追加できます！😊
                 </TableCell>
-                <TableCell>{name}</TableCell>
-                <TableCell>Gold 1</TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>
