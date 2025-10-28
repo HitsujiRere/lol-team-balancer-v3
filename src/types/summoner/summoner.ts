@@ -5,4 +5,5 @@ export type Summoner = {
   name: string;
   riotId?: RiotId;
   rank: Rank;
+  isMute: boolean;
 };
