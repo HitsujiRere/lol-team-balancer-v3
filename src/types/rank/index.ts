@@ -10,6 +10,7 @@ export {
   isSilver,
   isUnranked,
 } from "./isTier";
+export { joinRank } from "./joinRank";
 export {
   RANK_NUMBERS,
   RANKS,
