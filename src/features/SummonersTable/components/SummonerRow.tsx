@@ -1,6 +1,8 @@
 import { MicIcon, MicOff, Trash2Icon } from "lucide-react";
 import { useShallow } from "zustand/shallow";
+import { LevelInput } from "@/components/LevelInput";
 import { RankSelect } from "@/components/RankSelect";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -26,17 +28,28 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
         <Checkbox defaultChecked />
       </TableCell>
       <TableCell>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <Avatar>
+            <AvatarImage
+              src={`https://ddragon.leagueoflegends.com/cdn/15.17.1/img/profileicon/${summoner.iconId}.png`}
+              alt="サモナーアイコン"
+            />
+            <AvatarFallback />
+          </Avatar>
           {summoner.riotId ? (
             <a href={toOpggLink(summoner.riotId)} target="_blank">
-              <Button className="px-0!" variant="link">
-                {name} [OP.GG]
-              </Button>
+              <Button variant="link">{name} [OP.GG]</Button>
             </a>
           ) : (
-            <div>{name}</div>
+            <div className="px-4">{name}</div>
           )}
         </div>
+      </TableCell>
+      <TableCell>
+        <LevelInput
+          level={summoner.level}
+          onChange={(level) => changeSummoner(name, { level })}
+        />
       </TableCell>
       <TableCell>
         <RankSelect

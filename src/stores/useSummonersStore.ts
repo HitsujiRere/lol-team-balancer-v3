@@ -22,8 +22,11 @@ export const useSummonersStore = create<State>()(
         get().summoners[name] ?? {
           name,
           riotId: undefined,
+          level: 0,
+          iconId: undefined,
           rank: "UNRANKED",
           isMute: false,
+          fetched: false,
         }
       );
     },
@@ -35,8 +38,11 @@ export const useSummonersStore = create<State>()(
             state.summoners[name] = {
               name,
               riotId: typeof key === "string" ? undefined : key,
+              level: 0,
+              iconId: undefined,
               rank: "UNRANKED",
               isMute: false,
+              fetched: false,
             };
           }
         });
@@ -47,8 +53,11 @@ export const useSummonersStore = create<State>()(
         state.summoners[name] = {
           name,
           riotId: changes.riotId ?? current.riotId,
+          level: changes.level ?? current.level,
+          iconId: changes.iconId ?? current.iconId,
           rank: changes.rank ?? current.rank,
           isMute: changes.isMute ?? current.isMute,
+          fetched: changes.fetched ?? current.fetched,
         };
       }),
   })),
