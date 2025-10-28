@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
+import { FetchSummonersButton } from "./components/FetchSummonersButton";
 import { HeaderRow } from "./components/HeaderRow";
 import { SummonerRow } from "./components/SummonerRow";
 
@@ -18,7 +19,11 @@ export const SummonersTable = () => {
 
   return (
     <div className="relative grid gap-2">
-      <Label>サモナーテーブル</Label>
+      <div className="flex items-end gap-8">
+        <Label>サモナーテーブル</Label>
+        <FetchSummonersButton />
+      </div>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>

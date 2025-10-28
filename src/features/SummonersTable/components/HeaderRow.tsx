@@ -13,17 +13,19 @@ export const HeaderRow = () => {
       <TableHead>
         <Checkbox defaultChecked />
       </TableHead>
-      <TableHead className="flex items-center gap-2">
-        サモナー名
-        <a
-          href={toOpggMultisearchLink(roomRiotIds)}
-          target="_blank"
-          rel="noopener"
-        >
-          <Button variant="link" size="sm">
-            [OP.GGマルチサーチ]
-          </Button>
-        </a>
+      <TableHead>
+        <div className="flex items-center gap-2">
+          サモナー名
+          <a
+            href={toOpggMultisearchLink(roomRiotIds)}
+            target="_blank"
+            rel="noopener"
+          >
+            <Button variant="link" size="sm">
+              [OP.GGマルチサーチ]
+            </Button>
+          </a>
+        </div>
       </TableHead>
       <TableHead>ランク</TableHead>
       <TableHead>聞き専</TableHead>
