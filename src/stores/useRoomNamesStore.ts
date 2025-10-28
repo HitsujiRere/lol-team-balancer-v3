@@ -8,6 +8,7 @@ type State = {
   names: () => string[];
   setMessageNames: (names: string[]) => void;
   appendManualNames: (names: string[]) => void;
+  remove: (name: string) => void;
 };
 
 export const useRoomNamesStore = create<State>()(
@@ -22,6 +23,15 @@ export const useRoomNamesStore = create<State>()(
     appendManualNames: (names) =>
       set((state) => {
         state.manualNames.push(...names);
+      }),
+    remove: (name) =>
+      set((state) => {
+        state.messageNames = state.messageNames.filter(
+          (messageName) => messageName !== name,
+        );
+        state.manualNames = state.manualNames.filter(
+          (manualNames) => manualNames !== name,
+        );
       }),
   })),
 );
