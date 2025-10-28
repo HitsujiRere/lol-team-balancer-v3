@@ -2,16 +2,23 @@ import { useShallow } from "zustand/shallow";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableHead, TableRow } from "@/components/ui/table";
+import { useActivesStore } from "@/stores/useActivesStore";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
 import { toOpggMultisearchLink } from "@/types/riotId";
 
 export const HeaderRow = () => {
+  const active = useActivesStore((state) => state.getActiveAll());
+  const switchActiveAll = useActivesStore((state) => state.switchActiveAll);
+
   const roomRiotIds = useRoomNamesStore(useShallow((state) => state.riotIds()));
 
   return (
     <TableRow>
       <TableHead>
-        <Checkbox defaultChecked />
+        <Checkbox
+          checked={active}
+          onCheckedChange={(active) => switchActiveAll(active)}
+        />
       </TableHead>
       <TableHead>
         <div className="flex items-center gap-2">

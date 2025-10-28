@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Toggle } from "@/components/ui/toggle";
+import { useActivesStore } from "@/stores/useActivesStore";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
 import { useSummonersStore } from "@/stores/useSummonersStore";
 import { toOpggLink } from "@/types/riotId";
@@ -16,16 +17,23 @@ export type SummonerRowProps = {
 };
 
 export const SummonerRow = ({ name }: SummonerRowProps) => {
+  const active = useActivesStore((state) => state.actives.get(name));
+  const switchActive = useActivesStore((state) => state.switchActive);
+
   const summoner = useSummonersStore(
     useShallow((state) => state.getSummoner(name)),
   );
   const changeSummoner = useSummonersStore((state) => state.changeSummoner);
+
   const removeFromRoom = useRoomNamesStore((state) => state.remove);
 
   return (
     <TableRow className="hover:bg-muted/35">
       <TableCell>
-        <Checkbox defaultChecked />
+        <Checkbox
+          checked={active}
+          onCheckedChange={(active) => switchActive(name, active)}
+        />
       </TableCell>
       <TableCell>
         <div className="flex items-center">
