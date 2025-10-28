@@ -1,17 +1,16 @@
 "use client";
 
 import { useShallow } from "zustand/shallow";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
+import { HeaderRow } from "./components/HeaderRow";
 import { SummonerRow } from "./components/SummonerRow";
 
 export const SummonersTable = () => {
@@ -23,15 +22,7 @@ export const SummonersTable = () => {
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>
-                <Checkbox defaultChecked />
-              </TableHead>
-              <TableHead>サモナー名</TableHead>
-              <TableHead>ランク</TableHead>
-              <TableHead>聞き専</TableHead>
-              <TableHead>削除</TableHead>
-            </TableRow>
+            <HeaderRow />
           </TableHeader>
           <TableBody>
             {roomNames.length > 0 ? (

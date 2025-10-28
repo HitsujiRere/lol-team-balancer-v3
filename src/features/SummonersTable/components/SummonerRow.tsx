@@ -7,6 +7,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { Toggle } from "@/components/ui/toggle";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
 import { useSummonersStore } from "@/stores/useSummonersStore";
+import { toOpggLink } from "@/types/riotId/opggLink";
 
 export type SummonerRowProps = {
   name: string;
@@ -24,7 +25,19 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
       <TableCell>
         <Checkbox defaultChecked />
       </TableCell>
-      <TableCell>{name}</TableCell>
+      <TableCell>
+        <div className="flex items-center justify-between">
+          {summoner.riotId ? (
+            <a href={toOpggLink(summoner.riotId)} target="_blank">
+              <Button className="px-0!" variant="link">
+                {name} [OP.GG]
+              </Button>
+            </a>
+          ) : (
+            <div>{name}</div>
+          )}
+        </div>
+      </TableCell>
       <TableCell>
         <RankSelect
           rank={summoner.rank}
@@ -35,7 +48,6 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
         <Toggle
           title="聞き専を切り替える"
           variant="ghost"
-          size="sm"
           pressed={summoner.isMute}
           onPressedChange={(isMute) => changeSummoner(name, { isMute })}
         >
@@ -46,7 +58,7 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
       <TableCell>
         <Button
           variant="ghost"
-          size="icon-sm"
+          size="icon"
           onClick={() => removeFromRoom(name)}
         >
           <Trash2Icon />

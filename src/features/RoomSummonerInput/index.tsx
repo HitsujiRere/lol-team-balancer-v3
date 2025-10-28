@@ -9,10 +9,12 @@ import {
 } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
-import { formatRiotId } from "@/types/riotId";
 import { findRiotIdsAndNames } from "./findRiotIdsAndNames";
 
 export const RoomSummonerInput = () => {
+  const appendManualRiotIds = useRoomNamesStore(
+    (state) => state.appendManualRiotIds,
+  );
   const appendManualNames = useRoomNamesStore(
     (state) => state.appendManualNames,
   );
@@ -21,7 +23,8 @@ export const RoomSummonerInput = () => {
 
   const handleAppendName = () => {
     const [riotIds, names] = findRiotIdsAndNames(text);
-    appendManualNames([...riotIds.map((id) => formatRiotId(id)), ...names]);
+    appendManualRiotIds(riotIds);
+    appendManualNames(names);
     setText("");
   };
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

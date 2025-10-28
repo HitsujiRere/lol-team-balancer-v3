@@ -5,7 +5,7 @@ import type { Summoner } from "@/types/summoner";
 import { useRoomNamesStore } from "./useRoomNamesStore";
 
 type State = {
-  summoners: Map<string, Summoner>;
+  summoners: Record<string, Summoner | undefined>;
   getSummoner: (name: string) => Summoner;
   registerSummoners: (keys: (string | RiotId)[]) => void;
   changeSummoner: (
@@ -16,10 +16,10 @@ type State = {
 
 export const useSummonersStore = create<State>()(
   mutative((set, get) => ({
-    summoners: new Map(),
+    summoners: {},
     getSummoner: (name) => {
       return (
-        get().summoners.get(name) ?? {
+        get().summoners[name] ?? {
           name,
           riotId: undefined,
           rank: "UNRANKED",
@@ -31,31 +31,35 @@ export const useSummonersStore = create<State>()(
       set((state) => {
         keys.forEach((key) => {
           const name = typeof key === "string" ? key : formatRiotId(key);
-          if (!state.summoners.has(name)) {
-            state.summoners.set(name, {
+          if (!state.summoners[name]) {
+            state.summoners[name] = {
               name,
               riotId: typeof key === "string" ? undefined : key,
               rank: "UNRANKED",
               isMute: false,
-            });
+            };
           }
         });
       }),
     changeSummoner: (name, changes) =>
       set((state) => {
         const current = state.getSummoner(name);
-        state.summoners.set(name, {
+        state.summoners[name] = {
           name,
           riotId: changes.riotId ?? current.riotId,
           rank: changes.rank ?? current.rank,
           isMute: changes.isMute ?? current.isMute,
-        });
+        };
       }),
   })),
 );
 
 useRoomNamesStore.subscribe((roomState, _prev) =>
-  useSummonersStore.setState((summonerState) =>
-    summonerState.registerSummoners(roomState.names()),
-  ),
+  useSummonersStore
+    .getState()
+    .registerSummoners([
+      ...roomState.messageRiotIds,
+      ...roomState.manualRiotIds,
+      ...roomState.manualNames,
+    ]),
 );

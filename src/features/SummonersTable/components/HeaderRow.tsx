@@ -1,0 +1,33 @@
+import { useShallow } from "zustand/shallow";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { TableHead, TableRow } from "@/components/ui/table";
+import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
+import { toOpggMultisearchLink } from "@/types/riotId/opggLink";
+
+export const HeaderRow = () => {
+  const roomRiotIds = useRoomNamesStore(useShallow((state) => state.riotIds()));
+
+  return (
+    <TableRow>
+      <TableHead>
+        <Checkbox defaultChecked />
+      </TableHead>
+      <TableHead className="flex items-center gap-2">
+        サモナー名
+        <a
+          href={toOpggMultisearchLink(roomRiotIds)}
+          target="_blank"
+          rel="noopener"
+        >
+          <Button variant="link" size="sm">
+            [OP.GGマルチサーチ]
+          </Button>
+        </a>
+      </TableHead>
+      <TableHead>ランク</TableHead>
+      <TableHead>聞き専</TableHead>
+      <TableHead>削除</TableHead>
+    </TableRow>
+  );
+};

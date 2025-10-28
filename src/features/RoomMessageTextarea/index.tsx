@@ -6,19 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
-import { formatRiotId } from "@/types/riotId";
 import { DebugMessageButton } from "./components/DebugMessageButton";
 import { findRiotIds } from "./utils/findRiotIds";
 
 export const RoomMessageTextarea = () => {
-  const setMessageNames = useRoomNamesStore((state) => state.setMessageNames);
+  const setMessageRiotIds = useRoomNamesStore(
+    (state) => state.setMessageRiotIds,
+  );
 
   const [message, setMessage] = useState("");
 
   const handleSetNames = useEffectEvent((message: string) => {
     const riotIds = findRiotIds(message);
-    const names = riotIds.map((id) => formatRiotId(id));
-    setMessageNames(names);
+    setMessageRiotIds(riotIds);
   });
   useEffect(() => handleSetNames(message), [message]);
 
