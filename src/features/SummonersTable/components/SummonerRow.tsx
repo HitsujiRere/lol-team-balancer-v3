@@ -17,7 +17,7 @@ export type SummonerRowProps = {
 };
 
 export const SummonerRow = ({ name }: SummonerRowProps) => {
-  const active = useActivesStore((state) => state.actives.get(name));
+  const isActive = useActivesStore((state) => state.isActive(name));
   const switchActive = useActivesStore((state) => state.switchActive);
 
   const summoner = useSummonersStore(
@@ -31,7 +31,7 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
     <TableRow className="hover:bg-muted/35">
       <TableCell>
         <Checkbox
-          checked={active}
+          checked={isActive}
           onCheckedChange={(active) => switchActive(name, active)}
         />
       </TableCell>

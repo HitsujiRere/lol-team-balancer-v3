@@ -6,18 +6,18 @@ type CheckedState = boolean | "indeterminate";
 
 type State = {
   actives: Map<string, boolean>;
-  getActive: (name: string) => boolean;
-  getActiveAll: () => CheckedState;
+  isActive: (name: string) => boolean;
+  isAllActive: () => CheckedState;
   switchActive: (name: string, active: CheckedState) => void;
-  switchActiveAll: (active: CheckedState) => void;
+  switchAllActive: (active: CheckedState) => void;
   register: (names: string[]) => void;
 };
 
 export const useActivesStore = create<State>()(
   mutative((set, get) => ({
     actives: new Map(),
-    getActive: (name) => get().actives.get(name) ?? true,
-    getActiveAll: () => {
+    isActive: (name) => get().actives.get(name) ?? true,
+    isAllActive: () => {
       const size = get().actives.size;
       const actives = get()
         .actives.values()
@@ -30,7 +30,7 @@ export const useActivesStore = create<State>()(
       set((state) => {
         state.actives.set(name, active === true);
       }),
-    switchActiveAll: (active) =>
+    switchAllActive: (active) =>
       set((state) => {
         state.actives.forEach((_, name) => {
           state.actives.set(name, active === true);

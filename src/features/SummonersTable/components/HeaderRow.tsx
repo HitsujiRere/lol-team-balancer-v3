@@ -7,8 +7,8 @@ import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
 import { toOpggMultisearchLink } from "@/types/riotId";
 
 export const HeaderRow = () => {
-  const active = useActivesStore((state) => state.getActiveAll());
-  const switchActiveAll = useActivesStore((state) => state.switchActiveAll);
+  const isActive = useActivesStore((state) => state.isAllActive());
+  const switchAllActive = useActivesStore((state) => state.switchAllActive);
 
   const roomRiotIds = useRoomNamesStore(useShallow((state) => state.riotIds()));
 
@@ -16,8 +16,8 @@ export const HeaderRow = () => {
     <TableRow>
       <TableHead>
         <Checkbox
-          checked={active}
-          onCheckedChange={(active) => switchActiveAll(active)}
+          checked={isActive}
+          onCheckedChange={(active) => switchAllActive(active)}
         />
       </TableHead>
       <TableHead>
