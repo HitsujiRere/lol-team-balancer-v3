@@ -39,16 +39,16 @@ export const useRoomNamesStore = create<State>()(
       set((state) => {
         state.manualNames.push(...names);
       }),
-    remove: (name) =>
+    remove: (removeName) =>
       set((state) => {
         state.messageRiotIds = state.messageRiotIds.filter(
-          (messageRiotId) => formatRiotId(messageRiotId) !== name,
+          (riotId) => formatRiotId(riotId) !== removeName,
         );
-        state.messageRiotIds = state.manualRiotIds.filter(
-          (manualRiotId) => formatRiotId(manualRiotId) !== name,
+        state.manualRiotIds = state.manualRiotIds.filter(
+          (riotId) => formatRiotId(riotId) !== removeName,
         );
         state.manualNames = state.manualNames.filter(
-          (manualNames) => manualNames !== name,
+          (name) => name !== removeName,
         );
       }),
   })),
