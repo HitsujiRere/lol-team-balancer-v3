@@ -1,4 +1,7 @@
-import type { ContentfulStatusCode } from "hono/utils/http-status";
+import type {
+  ClientErrorStatusCode,
+  ServerErrorStatusCode,
+} from "hono/utils/http-status";
 import { okAsync, type ResultAsync } from "neverthrow";
 import z from "zod";
 import iconList from "@/assets/icon-list.json";
@@ -19,7 +22,7 @@ export type SummonerDTO = z.infer<typeof schema>;
 
 export type GetSummonerDTOError = {
   message: string;
-  status: ContentfulStatusCode;
+  status: ClientErrorStatusCode | ServerErrorStatusCode;
 };
 
 export const getSummonerDTO = (

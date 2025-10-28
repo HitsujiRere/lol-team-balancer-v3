@@ -1,4 +1,7 @@
-import type { ContentfulStatusCode } from "hono/utils/http-status";
+import type {
+  ClientErrorStatusCode,
+  ServerErrorStatusCode,
+} from "hono/utils/http-status";
 import { okAsync, type ResultAsync } from "neverthrow";
 import z from "zod";
 import { logger } from "@/server/logger";
@@ -28,7 +31,7 @@ export type LeagueEntryDTO = LeagueEntriesDTO[number];
 
 export type GetLeagueEntriesDTOError = {
   message: string;
-  status: ContentfulStatusCode;
+  status: ClientErrorStatusCode | ServerErrorStatusCode;
 };
 
 export const getLeagueEntriesDTO = (

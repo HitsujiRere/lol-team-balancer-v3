@@ -1,8 +1,11 @@
-import type { ContentfulStatusCode } from "hono/utils/http-status";
+import type {
+  ClientErrorStatusCode,
+  ServerErrorStatusCode,
+} from "hono/utils/http-status";
 import { err, ok, type ResultAsync, safeTry } from "neverthrow";
-import { createRiotApi } from "@/infrastructures/riot";
 import { joinRank, type Rank } from "@/types/rank";
 import { parseRiotId } from "@/types/riotId";
+import { createRiotApi } from "../infrastructures/riot";
 
 type SummonerInfo = {
   summonerLevel: number;
@@ -12,7 +15,7 @@ type SummonerInfo = {
 
 type GetSummonerInfoError = {
   message: string;
-  status: ContentfulStatusCode;
+  status: ClientErrorStatusCode | ServerErrorStatusCode;
 };
 
 export const getSummonerInfo = (
