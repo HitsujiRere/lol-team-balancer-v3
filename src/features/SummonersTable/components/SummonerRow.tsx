@@ -7,7 +7,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { Toggle } from "@/components/ui/toggle";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
 import { useSummonersStore } from "@/stores/useSummonersStore";
-import { toOpggLink } from "@/types/riotId/opggLink";
+import { toOpggLink } from "@/types/riotId";
 
 export type SummonerRowProps = {
   name: string;

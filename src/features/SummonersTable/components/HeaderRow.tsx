@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableHead, TableRow } from "@/components/ui/table";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
-import { toOpggMultisearchLink } from "@/types/riotId/opggLink";
+import { toOpggMultisearchLink } from "@/types/riotId";
 
 export const HeaderRow = () => {
   const roomRiotIds = useRoomNamesStore(useShallow((state) => state.riotIds()));
