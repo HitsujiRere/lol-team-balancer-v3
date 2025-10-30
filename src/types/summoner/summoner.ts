@@ -9,4 +9,6 @@ export type Summoner = {
   rank: Rank;
   isMute: boolean;
   fetchStatus: "idle" | "loading" | "success" | "error";
+  rankWins?: number;
+  rankLosses?: number;
 };

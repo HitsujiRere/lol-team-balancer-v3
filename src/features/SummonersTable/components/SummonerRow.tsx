@@ -52,8 +52,10 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
           ) : (
             <div className="px-4">{name}</div>
           )}
-          <FetchStatus fetchStatus={summoner.fetchStatus} />
         </div>
+      </TableCell>
+      <TableCell>
+        <FetchStatus fetchStatus={summoner.fetchStatus} />
       </TableCell>
       <TableCell>
         <LevelInput
@@ -67,6 +69,12 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
             rank={summoner.rank}
             onChangeRank={(rank) => changeSummoner(name, { rank })}
           />
+          {summoner.rankWins && summoner.rankLosses && (
+            <div className="flex flex-col leading-[1.2]">
+              <div>{summoner.rankWins + summoner.rankLosses}戦</div>
+              <div>{summoner.rankWins}勝</div>
+            </div>
+          )}
         </div>
       </TableCell>
       <TableCell>

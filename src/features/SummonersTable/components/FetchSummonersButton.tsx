@@ -37,6 +37,8 @@ export const FetchSummonersButton = () => {
             iconId: info.profileIconId,
             rank: info.soloRankedRank,
             fetchStatus: "success",
+            rankWins: info.soloRankedWins,
+            rankLosses: info.soloRankedLosses,
           });
         } else {
           changeSummoner(name, {

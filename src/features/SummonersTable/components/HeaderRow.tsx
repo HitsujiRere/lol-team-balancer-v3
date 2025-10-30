@@ -34,6 +34,7 @@ export const HeaderRow = () => {
           </a>
         </div>
       </TableHead>
+      <TableHead></TableHead>
       <TableHead>レベル</TableHead>
       <TableHead>ランク</TableHead>
       <TableHead>聞き専</TableHead>

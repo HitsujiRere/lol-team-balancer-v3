@@ -27,6 +27,8 @@ export const useSummonersStore = create<State>()(
           rank: "UNRANKED",
           isMute: false,
           fetchStatus: "idle",
+          rankWins: undefined,
+          rankLosses: undefined,
         }
       );
     },
@@ -43,6 +45,8 @@ export const useSummonersStore = create<State>()(
               rank: "UNRANKED",
               isMute: false,
               fetchStatus: "idle",
+              rankWins: undefined,
+              rankLosses: undefined,
             };
           }
         });
@@ -58,6 +62,8 @@ export const useSummonersStore = create<State>()(
           rank: changes.rank ?? current.rank,
           isMute: changes.isMute ?? current.isMute,
           fetchStatus: changes.fetchStatus ?? current.fetchStatus,
+          rankWins: changes.rankWins ?? current.rankWins,
+          rankLosses: changes.rankLosses ?? current.rankLosses,
         };
       }),
   })),

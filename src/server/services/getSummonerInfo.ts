@@ -11,6 +11,8 @@ type SummonerInfo = {
   summonerLevel: number;
   profileIconId: number;
   soloRankedRank: Rank;
+  soloRankedWins: number;
+  soloRankedLosses: number;
 };
 
 type GetSummonerInfoError = {
@@ -52,6 +54,8 @@ export const getSummonerInfo = (
       summonerLevel: summonerDTO.summonerLevel,
       profileIconId: summonerDTO.profileIconId,
       soloRankedRank,
-    });
+      soloRankedWins: soloRanked?.wins ?? 0,
+      soloRankedLosses: soloRanked?.losses ?? 0,
+    } satisfies SummonerInfo);
   });
 };
