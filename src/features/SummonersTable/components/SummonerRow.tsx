@@ -11,6 +11,7 @@ import { useActivesStore } from "@/stores/useActivesStore";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
 import { useSummonersStore } from "@/stores/useSummonersStore";
 import { toOpggLink } from "@/types/riotId";
+import { FetchStatus } from "./FetchStatus";
 
 export type SummonerRowProps = {
   name: string;
@@ -51,6 +52,7 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
           ) : (
             <div className="px-4">{name}</div>
           )}
+          <FetchStatus fetchStatus={summoner.fetchStatus} />
         </div>
       </TableCell>
       <TableCell>
@@ -60,10 +62,12 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
         />
       </TableCell>
       <TableCell>
-        <RankSelect
-          rank={summoner.rank}
-          onChangeRank={(rank) => changeSummoner(name, { rank })}
-        />
+        <div className="flex items-center gap-2">
+          <RankSelect
+            rank={summoner.rank}
+            onChangeRank={(rank) => changeSummoner(name, { rank })}
+          />
+        </div>
       </TableCell>
       <TableCell>
         <Toggle

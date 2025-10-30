@@ -22,10 +22,10 @@ export const FetchSummonersButton = () => {
 
     const promises = roomRiotIds
       .map<string>((riotId) => formatRiotId(riotId))
-      .filter((name) => !getSummoner(name).fetched)
+      .filter((name) => getSummoner(name).fetchStatus === "idle")
       .slice(0, 15)
       .map(async (name) => {
-        changeSummoner(name, { fetched: true });
+        changeSummoner(name, { fetchStatus: "loading" });
         const encoded = encodeURIComponent(name);
         const data = await client.api.summoner.id[":id"].$get({
           param: { id: encoded },
@@ -36,8 +36,12 @@ export const FetchSummonersButton = () => {
             level: info.summonerLevel,
             iconId: info.profileIconId,
             rank: info.soloRankedRank,
+            fetchStatus: "success",
           });
         } else {
+          changeSummoner(name, {
+            fetchStatus: "error",
+          });
           const info = await data.json();
           console.log({ name, info });
         }

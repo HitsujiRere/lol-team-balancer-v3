@@ -8,5 +8,5 @@ export type Summoner = {
   iconId?: number;
   rank: Rank;
   isMute: boolean;
-  fetched: boolean;
+  fetchStatus: "idle" | "loading" | "success" | "error";
 };
