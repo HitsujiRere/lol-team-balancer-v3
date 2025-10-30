@@ -7,14 +7,25 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useActivesStore } from "@/stores/useActivesStore";
+import { useSummonersStore } from "@/stores/useSummonersStore";
+import { shuffled } from "@/utils/shuffled";
 import { TeamGroup } from "./components/TeamGroup";
+import type { Member } from "./types/member";
 
 export const TeamBalancer = () => {
   const activeNames = useActivesStore(
     useShallow((state) => state.getActiveNames()),
   );
 
-  const [teamNames, setTeamNames] = useState<string[]>([]);
+  const [blueTeamNames, setBlueTeamNames] = useState<string[]>([]);
+  const [redTeamNames, setRedTeamNames] = useState<string[]>([]);
+
+  const sortedByLevel = (names: readonly string[]): string[] => {
+    const summoners = useSummonersStore.getState().summoners;
+    return names.toSorted(
+      (x, y) => (summoners[x]?.level ?? 0) - (summoners[y]?.level ?? 0),
+    );
+  };
 
   const parameterSwitchId = useId();
 
@@ -23,7 +34,10 @@ export const TeamBalancer = () => {
       <div className="flex gap-4">
         <Button
           disabled={activeNames.length !== 10}
-          onClick={() => setTeamNames(activeNames)}
+          onClick={() => {
+            setBlueTeamNames(sortedByLevel(activeNames.slice(0, 5)));
+            setRedTeamNames(sortedByLevel(activeNames.slice(5, 10)));
+          }}
         >
           <FlagIcon />
           メンバー更新：試合参加 {activeNames.length}/10人
@@ -48,14 +62,25 @@ export const TeamBalancer = () => {
           <WormIcon />
           蛇行
         </Button>
-        <Button>
+        <Button
+          onClick={() => {
+            const names = shuffled([...blueTeamNames, ...redTeamNames]);
+            setBlueTeamNames(sortedByLevel(names.slice(0, 5)));
+            setRedTeamNames(sortedByLevel(names.slice(5, 10)));
+          }}
+        >
           <DicesIcon />
           ランダム
         </Button>
       </div>
 
       <div>
-        <TeamGroup members={teamNames.map((name) => ({ name, team: "Red" }))} />
+        <TeamGroup
+          members={[
+            ...blueTeamNames.map<Member>((name) => ({ name, team: "Blue" })),
+            ...redTeamNames.map<Member>((name) => ({ name, team: "Red" })),
+          ]}
+        />
       </div>
     </>
   );
