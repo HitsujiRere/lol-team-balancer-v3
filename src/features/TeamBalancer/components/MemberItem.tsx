@@ -23,8 +23,8 @@ export const MemberItem = ({ name }: MemberItemProps) => {
 
   return (
     <div className="flex flex-col gap-2 rounded-md border border-border p-4">
-      <div className="flex items-center">
-        <Button variant="ghost" className="cursor-grab">
+      <div className="flex items-center gap-1 overflow-auto">
+        <Button variant="ghost" size="icon" className="cursor-grab">
           <GripVerticalIcon />
         </Button>
         <SummonerAvatar
