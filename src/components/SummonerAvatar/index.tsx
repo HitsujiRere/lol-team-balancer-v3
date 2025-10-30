@@ -26,7 +26,7 @@ export const SummonerAvatar = ({
       </Avatar>
       {riotId ? (
         <a href={toOpggLink(riotId)} target="_blank">
-          <Button variant="link">{name} [OP.GG]</Button>
+          <Button variant="link">{name}</Button>
         </a>
       ) : (
         <div className="px-4">{name}</div>
