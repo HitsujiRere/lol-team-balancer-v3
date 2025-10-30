@@ -21,11 +21,15 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
   const switchActive = useActivesStore((state) => state.switchActive);
 
   const summoner = useSummonersStore(
-    useShallow((state) => state.getSummoner(name)),
+    useShallow((state) => state.summoners[name]),
   );
   const changeSummoner = useSummonersStore((state) => state.changeSummoner);
 
   const removeFromRoom = useRoomNamesStore((state) => state.remove);
+
+  if (summoner === undefined) {
+    return <TableRow></TableRow>;
+  }
 
   return (
     <TableRow className="hover:bg-muted/35">

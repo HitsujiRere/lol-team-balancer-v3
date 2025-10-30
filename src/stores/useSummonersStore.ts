@@ -1,12 +1,11 @@
 import { create } from "zustand";
 import { mutative } from "zustand-mutative";
 import { formatRiotId, type RiotId } from "@/types/riotId";
-import type { Summoner } from "@/types/summoner";
+import { createSummoner, type Summoner } from "@/types/summoner";
 import { useRoomNamesStore } from "./useRoomNamesStore";
 
 type State = {
-  summoners: Record<string, Summoner | undefined>;
-  getSummoner: (name: string) => Summoner;
+  summoners: Record<string, Summoner>;
   registerSummoners: (keys: (string | RiotId)[]) => void;
   changeSummoner: (
     name: string,
@@ -15,45 +14,22 @@ type State = {
 };
 
 export const useSummonersStore = create<State>()(
-  mutative((set, get) => ({
+  mutative((set, _get) => ({
     summoners: {},
-    getSummoner: (name) => {
-      return (
-        get().summoners[name] ?? {
-          name,
-          riotId: undefined,
-          level: 0,
-          iconId: undefined,
-          rank: "UNRANKED",
-          isMute: false,
-          fetchStatus: "idle",
-          rankWins: undefined,
-          rankLosses: undefined,
-        }
-      );
-    },
     registerSummoners: (keys) =>
       set((state) => {
         keys.forEach((key) => {
           const name = typeof key === "string" ? key : formatRiotId(key);
           if (!state.summoners[name]) {
-            state.summoners[name] = {
-              name,
-              riotId: typeof key === "string" ? undefined : key,
-              level: 0,
-              iconId: undefined,
-              rank: "UNRANKED",
-              isMute: false,
-              fetchStatus: "idle",
-              rankWins: undefined,
-              rankLosses: undefined,
-            };
+            state.summoners[name] = createSummoner(name, {
+              riotId: typeof key !== "string" ? key : undefined,
+            });
           }
         });
       }),
     changeSummoner: (name, changes) =>
       set((state) => {
-        const current = state.getSummoner(name);
+        const current = state.summoners[name] ?? createSummoner(name);
         state.summoners[name] = {
           name,
           riotId: changes.riotId ?? current.riotId,

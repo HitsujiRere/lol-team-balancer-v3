@@ -8,6 +8,7 @@ type State = {
   actives: Map<string, boolean>;
   isActive: (name: string) => boolean;
   isAllActive: () => CheckedState;
+  getActiveNames: () => string[];
   switchActive: (name: string, active: CheckedState) => void;
   switchAllActive: (active: CheckedState) => void;
   register: (names: string[]) => void;
@@ -25,6 +26,13 @@ export const useActivesStore = create<State>()(
       if (actives === size) return true;
       if (actives === 0) return false;
       return "indeterminate";
+    },
+    getActiveNames: () => {
+      return get()
+        .actives.entries()
+        .filter(([, active]) => active)
+        .map(([name]) => name)
+        .toArray();
     },
     switchActive: (name, active) =>
       set((state) => {

@@ -18,11 +18,11 @@ export const FetchSummonersButton = () => {
 
     const roomRiotIds = useRoomNamesStore.getState().riotIds();
     const changeSummoner = useSummonersStore.getState().changeSummoner;
-    const getSummoner = useSummonersStore.getState().getSummoner;
+    const summoners = useSummonersStore.getState().summoners;
 
     const promises = roomRiotIds
       .map<string>((riotId) => formatRiotId(riotId))
-      .filter((name) => getSummoner(name).fetchStatus === "idle")
+      .filter((name) => summoners[name]?.fetchStatus === "idle")
       .slice(0, 15)
       .map(async (name) => {
         changeSummoner(name, { fetchStatus: "loading" });

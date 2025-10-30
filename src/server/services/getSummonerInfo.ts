@@ -46,14 +46,13 @@ export const getSummonerInfo = (
     const soloRanked = leagueEntriesDTO.find(
       (leagueEntry) => leagueEntry.queueType === "RANKED_SOLO_5x5",
     );
-    const soloRankedRank: Rank = soloRanked
-      ? joinRank(soloRanked.tier, soloRanked.rank)
-      : "UNRANKED";
 
     return ok({
       summonerLevel: summonerDTO.summonerLevel,
       profileIconId: summonerDTO.profileIconId,
-      soloRankedRank,
+      soloRankedRank: soloRanked
+        ? joinRank(soloRanked.tier, soloRanked.rank)
+        : "UNRANKED",
       soloRankedWins: soloRanked?.wins ?? 0,
       soloRankedLosses: soloRanked?.losses ?? 0,
     } satisfies SummonerInfo);
