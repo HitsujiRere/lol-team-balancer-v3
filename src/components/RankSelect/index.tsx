@@ -5,15 +5,15 @@ import { rankClasses } from "./utils/rankClasses";
 
 export type RankSelectProps = {
   rank: Rank;
-  onChangeRank: (rank: Rank) => void;
+  onChange: (rank: Rank) => void;
 };
 
-export const RankSelect = ({ rank, onChangeRank }: RankSelectProps) => {
+export const RankSelect = ({ rank, onChange }: RankSelectProps) => {
   return (
     <NativeSelect
       value={rank}
       className={cn(rankClasses(rank), "w-34")}
-      onChange={(event) => onChangeRank(event.target.value as Rank)}
+      onChange={(event) => onChange(event.target.value as Rank)}
     >
       {RANKS.map((optionRank) => (
         <NativeSelectOption

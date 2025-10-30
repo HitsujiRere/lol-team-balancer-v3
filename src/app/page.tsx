@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <Header />
 
-      <main className="grid grid-cols-[1fr_2px_1fr] pb-8">
+      <main className="grid min-h-screen pb-8 2xl:grid-cols-[1fr_2px_1fr]">
         <section className="flex flex-col gap-6 p-4">
           <h2 className="flex items-center gap-1 text-xl">
             <HouseIcon />

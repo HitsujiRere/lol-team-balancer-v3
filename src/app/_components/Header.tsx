@@ -1,6 +1,6 @@
 "use client";
 
-import { WrenchIcon } from "lucide-react";
+import { ScaleIcon, WrenchIcon } from "lucide-react";
 import { Toggle } from "@/components/ui/toggle";
 import { useDebugStore } from "@/stores/useDebugStore";
 
@@ -11,7 +11,10 @@ export const Header = () => {
   return (
     <header className="px-4 pt-6">
       <div className="flex items-end justify-between border-primary border-b-2 px-8 pb-1">
-        <h1 className="font-bold text-2xl">LoLチームバランサー</h1>
+        <div className="flex items-center gap-2">
+          <ScaleIcon className="size-8" />
+          <h1 className="font-bold text-2xl">LoLチームバランサー</h1>
+        </div>
 
         <Toggle
           title="デバッグモードを切り替える"

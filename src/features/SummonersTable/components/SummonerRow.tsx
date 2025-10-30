@@ -1,16 +1,15 @@
-import { MicIcon, MicOff, Trash2Icon } from "lucide-react";
+import { Trash2Icon } from "lucide-react";
 import { useShallow } from "zustand/shallow";
 import { LevelInput } from "@/components/LevelInput";
+import { MuteToggle } from "@/components/MuteToggle";
 import { RankSelect } from "@/components/RankSelect";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { SummonerAvatar } from "@/components/SummonerAvatar";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { Toggle } from "@/components/ui/toggle";
 import { useActivesStore } from "@/stores/useActivesStore";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
 import { useSummonersStore } from "@/stores/useSummonersStore";
-import { toOpggLink } from "@/types/riotId";
 import { FetchStatus } from "./FetchStatus";
 
 export type SummonerRowProps = {
@@ -37,22 +36,11 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
         />
       </TableCell>
       <TableCell>
-        <div className="flex items-center">
-          <Avatar>
-            <AvatarImage
-              src={`https://ddragon.leagueoflegends.com/cdn/15.17.1/img/profileicon/${summoner.iconId}.png`}
-              alt="サモナーアイコン"
-            />
-            <AvatarFallback />
-          </Avatar>
-          {summoner.riotId ? (
-            <a href={toOpggLink(summoner.riotId)} target="_blank">
-              <Button variant="link">{name} [OP.GG]</Button>
-            </a>
-          ) : (
-            <div className="px-4">{name}</div>
-          )}
-        </div>
+        <SummonerAvatar
+          name={summoner.name}
+          riotId={summoner.riotId}
+          iconId={summoner.iconId}
+        />
       </TableCell>
       <TableCell>
         <FetchStatus fetchStatus={summoner.fetchStatus} />
@@ -67,7 +55,7 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
         <div className="flex items-center gap-2">
           <RankSelect
             rank={summoner.rank}
-            onChangeRank={(rank) => changeSummoner(name, { rank })}
+            onChange={(rank) => changeSummoner(name, { rank })}
           />
           {summoner.rankWins && summoner.rankLosses && (
             <div className="flex flex-col leading-[1.2]">
@@ -78,15 +66,10 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
         </div>
       </TableCell>
       <TableCell>
-        <Toggle
-          title="聞き専を切り替える"
-          variant="ghost"
-          pressed={summoner.isMute}
-          onPressedChange={(isMute) => changeSummoner(name, { isMute })}
-        >
-          <MicIcon className="transition-opacity group-data-[state=on]/toggle:opacity-0" />
-          <MicOff className="absolute transition-opacity group-data-[state=off]/toggle:opacity-0" />
-        </Toggle>
+        <MuteToggle
+          isMute={summoner.isMute}
+          onChange={(isMute) => changeSummoner(name, { isMute })}
+        />
       </TableCell>
       <TableCell>
         <Button
