@@ -11,6 +11,7 @@ export const MuteToggle = ({ isMute, onChange }: MuteToggleProps) => {
     <Toggle
       title="聞き専を切り替える"
       variant="ghost"
+      className="group/toggle"
       pressed={isMute}
       onPressedChange={(isMute) => onChange(isMute)}
     >

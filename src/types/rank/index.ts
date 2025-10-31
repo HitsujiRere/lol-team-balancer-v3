@@ -11,6 +11,7 @@ export {
   isUnranked,
 } from "./isTier";
 export { joinRank } from "./joinRank";
+export { pointToRank, rankToPoint } from "./point";
 export {
   RANK_NUMBERS,
   RANKS,

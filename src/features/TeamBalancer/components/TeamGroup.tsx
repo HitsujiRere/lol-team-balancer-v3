@@ -1,35 +1,42 @@
 import { Flipper } from "react-flip-toolkit";
 import { cn } from "@/lib/utils";
-import type { Member } from "../types/member";
+import type { Team } from "../types/team";
 import { FlippedItem } from "./FlippedItem";
 import { MemberItem } from "./MemberItem";
+import { TeamTag } from "./TeamTag";
 
 export type TeamGroupProps = {
-  members: Member[];
+  blueNames: string[];
+  redNames: string[];
 };
 
-export const TeamGroup = ({ members }: TeamGroupProps) => {
+export const TeamGroup = ({ blueNames, redNames }: TeamGroupProps) => {
+  const members: [string, Team][] = [
+    ...blueNames.map<[string, Team]>((name) => [name, "Blue"]),
+    ...redNames.map<[string, Team]>((name) => [name, "Red"]),
+  ];
+
   return (
     <Flipper
-      flipKey={members
-        .map((member) => `${member.name};${member.team}`)
-        .join(",")}
+      flipKey={`${blueNames.join(",")};${redNames.join(",")}`}
+      className="grid grid-flow-row-dense grid-cols-2 place-items-center gap-x-16 gap-y-8"
     >
-      <div className="grid grid-cols-2 gap-x-16 gap-y-8 grid-flow-col-dense">
-        {members.map((member) => (
-          <div
-            key={member.name}
-            className={cn({
-              "col-start-1": member.team === "Blue",
-              "col-start-2": member.team === "Red",
-            })}
-          >
-            <FlippedItem flipId={member.name}>
-              <MemberItem name={member.name} />
-            </FlippedItem>
-          </div>
-        ))}
-      </div>
+      <TeamTag team="Blue" names={blueNames} />
+      <TeamTag team="Red" names={redNames} />
+
+      {members.map(([name, team]) => (
+        <div
+          key={name}
+          className={cn({
+            "col-start-1": team === "Blue",
+            "col-start-2": team === "Red",
+          })}
+        >
+          <FlippedItem flipId={name}>
+            <MemberItem name={name} team={team} />
+          </FlippedItem>
+        </div>
+      ))}
     </Flipper>
   );
 };

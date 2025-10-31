@@ -5,13 +5,16 @@ import { MuteToggle } from "@/components/MuteToggle";
 import { RankSelect } from "@/components/RankSelect";
 import { SummonerAvatar } from "@/components/SummonerAvatar";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useSummonersStore } from "@/stores/useSummonersStore";
+import type { Team } from "../types/team";
 
 export type MemberItemProps = {
   name: string;
+  team: Team;
 };
 
-export const MemberItem = ({ name }: MemberItemProps) => {
+export const MemberItem = ({ name, team }: MemberItemProps) => {
   const summoner = useSummonersStore(
     useShallow((state) => state.summoners[name]),
   );
@@ -22,7 +25,12 @@ export const MemberItem = ({ name }: MemberItemProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-2 rounded-md border border-border p-4">
+    <div
+      className={cn("flex flex-col gap-2 rounded-md border-2 p-4", {
+        "border-blue-400": team === "Blue",
+        "border-red-400": team === "Red",
+      })}
+    >
       <div className="flex items-center gap-1 overflow-auto">
         <Button variant="ghost" size="icon" className="cursor-grab">
           <GripVerticalIcon />

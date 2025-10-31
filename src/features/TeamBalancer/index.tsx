@@ -1,16 +1,23 @@
 "use client";
 
-import { DicesIcon, FlagIcon, ScaleIcon, WormIcon } from "lucide-react";
+import {
+  DicesIcon,
+  FlagIcon,
+  ScaleIcon,
+  SortAscIcon,
+  WormIcon,
+} from "lucide-react";
 import { useId, useState } from "react";
 import { useShallow } from "zustand/shallow";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Toggle } from "@/components/ui/toggle";
 import { useActivesStore } from "@/stores/useActivesStore";
 import { useSummonersStore } from "@/stores/useSummonersStore";
+import { rankToPoint } from "@/types/rank";
 import { shuffled } from "@/utils/shuffled";
 import { TeamGroup } from "./components/TeamGroup";
-import type { Member } from "./types/member";
 
 export const TeamBalancer = () => {
   const activeNames = useActivesStore(
@@ -20,14 +27,28 @@ export const TeamBalancer = () => {
   const [blueTeamNames, setBlueTeamNames] = useState<string[]>([]);
   const [redTeamNames, setRedTeamNames] = useState<string[]>([]);
 
-  const sortedByLevel = (names: readonly string[]): string[] => {
+  const parameterSwitchId = useId();
+  const [parameterSwitchChecked, setParameterSwitchChecked] = useState(true);
+  const parameter = parameterSwitchChecked ? "rank" : "level";
+
+  const [isSortAsc, setIsSortAsc] = useState(true);
+
+  const sortedByParameter = (names: readonly string[]): string[] => {
     const summoners = useSummonersStore.getState().summoners;
+    const point = (name: string): number => {
+      if (parameter === "level") {
+        return summoners[name]?.level ?? 0;
+      } else {
+        return rankToPoint(summoners[name]?.rank ?? "UNRANKED");
+      }
+    };
     return names.toSorted(
-      (x, y) => (summoners[x]?.level ?? 0) - (summoners[y]?.level ?? 0),
+      (x, y) => (point(x) - point(y)) * (isSortAsc ? 1 : -1),
     );
   };
 
-  const parameterSwitchId = useId();
+  const sortedBlueTeamNames = sortedByParameter(blueTeamNames);
+  const sortedRedTeamNames = sortedByParameter(redTeamNames);
 
   return (
     <>
@@ -35,8 +56,8 @@ export const TeamBalancer = () => {
         <Button
           disabled={activeNames.length !== 10}
           onClick={() => {
-            setBlueTeamNames(sortedByLevel(activeNames.slice(0, 5)));
-            setRedTeamNames(sortedByLevel(activeNames.slice(5, 10)));
+            setBlueTeamNames(sortedByParameter(activeNames.slice(0, 5)));
+            setRedTeamNames(sortedByParameter(activeNames.slice(5, 10)));
           }}
         >
           <FlagIcon />
@@ -44,16 +65,31 @@ export const TeamBalancer = () => {
         </Button>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex items-center gap-4">
         <div className="flex items-center gap-1">
           <Label htmlFor={parameterSwitchId} className="text-base">
             レベル
           </Label>
-          <Switch id={parameterSwitchId} />
+          <Switch
+            id={parameterSwitchId}
+            checked={parameterSwitchChecked}
+            onCheckedChange={setParameterSwitchChecked}
+          />
           <Label htmlFor={parameterSwitchId} className="text-base">
             ランク
           </Label>
         </div>
+        <Toggle
+          variant="outline"
+          className="group/toggle"
+          pressed={isSortAsc}
+          onPressedChange={setIsSortAsc}
+        >
+          <div className="relative">
+            <SortAscIcon className="transition-transform group-data-[state=off]/toggle:rotate-x-180" />
+          </div>
+          ソート({isSortAsc ? "昇順" : "降順"})
+        </Toggle>
         <Button>
           <ScaleIcon />
           平均
@@ -65,8 +101,8 @@ export const TeamBalancer = () => {
         <Button
           onClick={() => {
             const names = shuffled([...blueTeamNames, ...redTeamNames]);
-            setBlueTeamNames(sortedByLevel(names.slice(0, 5)));
-            setRedTeamNames(sortedByLevel(names.slice(5, 10)));
+            setBlueTeamNames(sortedByParameter(names.slice(0, 5)));
+            setRedTeamNames(sortedByParameter(names.slice(5, 10)));
           }}
         >
           <DicesIcon />
@@ -74,14 +110,12 @@ export const TeamBalancer = () => {
         </Button>
       </div>
 
-      <div>
+      {blueTeamNames.length > 0 && redTeamNames.length > 0 && (
         <TeamGroup
-          members={[
-            ...blueTeamNames.map<Member>((name) => ({ name, team: "Blue" })),
-            ...redTeamNames.map<Member>((name) => ({ name, team: "Red" })),
-          ]}
+          blueNames={sortedBlueTeamNames}
+          redNames={sortedRedTeamNames}
         />
-      </div>
+      )}
     </>
   );
 };
