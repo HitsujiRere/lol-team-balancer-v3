@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useId, useState } from "react";
 import { useShallow } from "zustand/shallow";
+import { CopyButton } from "@/components/CopyButton";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -16,6 +17,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { useActivesStore } from "@/stores/useActivesStore";
 import { useSummonersStore } from "@/stores/useSummonersStore";
 import { rankToPoint } from "@/types/rank";
+import { toOpggMultisearchLink } from "@/types/riotId";
 import { shuffled } from "@/utils/shuffled";
 import { TeamGroup } from "./components/TeamGroup";
 
@@ -50,6 +52,26 @@ export const TeamBalancer = () => {
   const sortedBlueTeamNames = sortedByParameter(blueTeamNames);
   const sortedRedTeamNames = sortedByParameter(redTeamNames);
 
+  const copyText = () => {
+    const summoners = useSummonersStore.getState().summoners;
+    const blueOpggLink = toOpggMultisearchLink(
+      sortedBlueTeamNames
+        .map((name) => summoners[name])
+        .map((summoner) => summoner?.riotId)
+        .filter((id) => id !== undefined),
+    );
+    const redOpggLink = toOpggMultisearchLink(
+      sortedRedTeamNames
+        .map((name) => summoners[name])
+        .map((summoner) => summoner?.riotId)
+        .filter((id) => id !== undefined),
+    );
+    return (
+      `【Blue】\n${blueOpggLink}\n${sortedBlueTeamNames.join("\n")}\n` +
+      `【RED】\n${redOpggLink}\n${sortedRedTeamNames.join("\n")}`
+    );
+  };
+
   return (
     <>
       <div className="flex gap-4">
@@ -63,6 +85,10 @@ export const TeamBalancer = () => {
           <FlagIcon />
           メンバー更新：試合参加 {activeNames.length}/10人
         </Button>
+
+        <div>
+          <CopyButton variant="secondary" data={copyText} />
+        </div>
       </div>
 
       <div className="flex items-center gap-4">

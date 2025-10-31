@@ -11,43 +11,26 @@ export type FetchStatusProps = {
 };
 
 export const FetchStatus = ({ fetchStatus }: FetchStatusProps) => {
-  if (fetchStatus === "idle") {
-    return undefined;
-  }
-  if (fetchStatus === "loading") {
-    return (
-      <Tooltip>
-        <TooltipTrigger>
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        {fetchStatus === "loading" ? (
           <SearchIcon className="size-4 animate-spin stroke-blue-600" />
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>サモナー検索中</p>
-        </TooltipContent>
-      </Tooltip>
-    );
-  }
-  if (fetchStatus === "success") {
-    return (
-      <Tooltip>
-        <TooltipTrigger>
+        ) : fetchStatus === "success" ? (
           <SearchCheckIcon className="size-4 stroke-blue-600" />
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>サモナーが見つかりました！</p>
-        </TooltipContent>
-      </Tooltip>
-    );
-  }
-  if (fetchStatus === "error") {
-    return (
-      <Tooltip>
-        <TooltipTrigger>
+        ) : fetchStatus === "error" ? (
           <SearchXIcon className="size-4 stroke-red-600" />
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>サモナーが見つかりませんでした😢</p>
-        </TooltipContent>
-      </Tooltip>
-    );
-  }
+        ) : undefined}
+      </TooltipTrigger>
+      <TooltipContent>
+        {fetchStatus === "loading" ? (
+          <div>サモナー検索中</div>
+        ) : fetchStatus === "success" ? (
+          <div>サモナーが見つかりました！</div>
+        ) : fetchStatus === "error" ? (
+          <div>サモナーが見つかりませんでした😢</div>
+        ) : undefined}
+      </TooltipContent>
+    </Tooltip>
+  );
 };

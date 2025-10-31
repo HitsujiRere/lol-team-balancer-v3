@@ -1,9 +1,11 @@
-import { CopyIcon } from "lucide-react";
+import { LinkIcon } from "lucide-react";
 import { useShallow } from "zustand/shallow";
+import { CopyButton } from "@/components/CopyButton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useSummonersStore } from "@/stores/useSummonersStore";
 import { formatRank, pointToRank, rankToPoint } from "@/types/rank";
+import { toOpggMultisearchLink } from "@/types/riotId";
 import { average } from "@/utils/average";
 import type { Team } from "../types/team";
 
@@ -26,6 +28,13 @@ export const TeamTag = ({ team, names }: TeamTagProps) => {
     average(summoners.map((summoner) => rankToPoint(summoner.rank))),
   );
 
+  const opggLink = toOpggMultisearchLink(
+    summoners
+      .map((summoner) => summoner.riotId)
+      .filter((id) => id !== undefined),
+  );
+  const copyText = `【${team}】\n${opggLink}\n${names.join("\n")}`;
+
   return (
     <div
       className={cn(
@@ -41,11 +50,14 @@ export const TeamTag = ({ team, names }: TeamTagProps) => {
         <div>平均ランク: {formatRank(aveRank)}</div>
         <div>平均レベル: {aveLevel}</div>
       </div>
-      <div>
-        <Button variant="outline">
-          <CopyIcon />
-          コピー
-        </Button>
+      <div className="flex items-center gap-4">
+        <a href={opggLink} target="_blank">
+          <Button variant="secondary">
+            <LinkIcon />
+            OP.GGマルチサーチ
+          </Button>
+        </a>
+        <CopyButton variant="secondary" data={copyText} />
       </div>
     </div>
   );
