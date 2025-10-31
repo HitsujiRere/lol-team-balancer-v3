@@ -54,7 +54,7 @@ export const FlippedItem = ({
         return !disabled && !isExitingRef.current;
       }}
     >
-      <div>{children}</div>
+      {children}
     </Flipped>
   );
 };

@@ -25,17 +25,16 @@ export const TeamGroup = ({ blueNames, redNames }: TeamGroupProps) => {
       <TeamTag team="Red" names={redNames} />
 
       {members.map(([name, team]) => (
-        <div
-          key={name}
-          className={cn({
-            "col-start-1": team === "Blue",
-            "col-start-2": team === "Red",
-          })}
-        >
-          <FlippedItem flipId={name}>
+        <FlippedItem key={name} flipId={name}>
+          <div
+            className={cn({
+              "col-start-1": team === "Blue",
+              "col-start-2": team === "Red",
+            })}
+          >
             <MemberItem name={name} team={team} />
-          </FlippedItem>
-        </div>
+          </div>
+        </FlippedItem>
       ))}
     </Flipper>
   );

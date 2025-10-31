@@ -1,4 +1,5 @@
 import { GripVerticalIcon } from "lucide-react";
+import { useRef } from "react";
 import { useShallow } from "zustand/shallow";
 import { LevelInput } from "@/components/LevelInput";
 import { MuteToggle } from "@/components/MuteToggle";
@@ -26,10 +27,13 @@ export const MemberItem = ({ name, team }: MemberItemProps) => {
 
   return (
     <div
-      className={cn("flex flex-col gap-2 rounded-md border-2 p-4", {
-        "border-blue-400": team === "Blue",
-        "border-red-400": team === "Red",
-      })}
+      className={cn(
+        "flex flex-col gap-2 rounded-md border-2 bg-background p-4",
+        {
+          "border-blue-400": team === "Blue",
+          "border-red-400": team === "Red",
+        },
+      )}
     >
       <div className="flex items-center gap-1 overflow-auto">
         <Button variant="ghost" size="icon" className="cursor-grab">
