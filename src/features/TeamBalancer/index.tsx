@@ -2,10 +2,11 @@
 
 import { DndContext, DragOverlay, pointerWithin } from "@dnd-kit/core";
 import {
+  ArrowDownUpIcon,
   DicesIcon,
   FlagIcon,
   ScaleIcon,
-  SortAscIcon,
+  SortDescIcon,
   WormIcon,
 } from "lucide-react";
 import { useId, useState } from "react";
@@ -15,7 +16,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Toggle } from "@/components/ui/toggle";
+import { cn } from "@/lib/utils";
 import { useActivesStore } from "@/stores/useActivesStore";
 import { useSummonersStore } from "@/stores/useSummonersStore";
 import { toOpggMultisearchLink } from "@/types/riotId";
@@ -42,6 +43,12 @@ export const TeamBalancer = () => {
     parameterSwitchChecked ? "rank" : "level",
     isSortAsc,
   );
+
+  const [isSorting, setIsSorting] = useState(true);
+  const displayTeamNames: Record<Team, string[]> = {
+    Blue: isSorting ? sortedNames(teamNames.Blue) : teamNames.Blue,
+    Red: isSorting ? sortedNames(teamNames.Red) : teamNames.Red,
+  };
 
   const copyText = () => {
     const summoners = useSummonersStore.getState().summoners;
@@ -77,16 +84,32 @@ export const TeamBalancer = () => {
         </Button>
 
         <div>
-          <CopyButton variant="secondary" data={copyText} />
+          <CopyButton data={copyText} />
         </div>
       </div>
 
       <div className="flex items-center gap-4">
+        <Button disabled={isSorting} onClick={() => setIsSorting(true)}>
+          <div className="relative">
+            <SortDescIcon
+              className={cn("transition-opacity", {
+                "opacity-0": !isSorting,
+              })}
+            />
+            <ArrowDownUpIcon
+              className={cn("absolute inset-0 transition-opacity", {
+                "opacity-0": isSorting,
+              })}
+            />
+          </div>
+          {isSorting ? "ソート中" : "ソート！"}
+        </Button>
         <div className="flex items-center gap-1">
           <Label htmlFor={parameterSwitchId} className="text-base">
             レベル
           </Label>
           <Switch
+            side="both"
             id={parameterSwitchId}
             checked={parameterSwitchChecked}
             onCheckedChange={setParameterSwitchChecked}
@@ -95,17 +118,16 @@ export const TeamBalancer = () => {
             ランク
           </Label>
         </div>
-        <Toggle
-          variant="outline"
-          className="group/toggle"
-          pressed={isSortAsc}
-          onPressedChange={setIsSortAsc}
-        >
+        <Button onClick={() => setIsSortAsc((asc) => !asc)}>
           <div className="relative">
-            <SortAscIcon className="transition-transform group-data-[state=off]/toggle:rotate-x-180" />
+            <SortDescIcon
+              className={cn("transition-transform", {
+                "rotate-x-180": isSortAsc,
+              })}
+            />
           </div>
           ソート({isSortAsc ? "昇順" : "降順"})
-        </Toggle>
+        </Button>
       </div>
 
       <div className="flex items-center gap-4">
@@ -154,19 +176,17 @@ export const TeamBalancer = () => {
               teamNames[overTeam][overIndex] = activeName;
             });
             setActiveTeam(overTeam);
+            setIsSorting(false);
           }}
           onDragEnd={() => {
             setActiveName(undefined);
           }}
         >
           <TeamGroup
-            // blueNames={teamSortedNames.Blue}
-            // redNames={teamSortedNames.Red}
-            blueNames={teamNames.Blue}
-            redNames={teamNames.Red}
+            blueNames={displayTeamNames.Blue}
+            redNames={displayTeamNames.Red}
             disabledFlip={!!activeName}
           />
-
           <DragOverlay>
             {activeName && activeTeam && (
               <MemberView name={activeName} team={activeTeam} />
