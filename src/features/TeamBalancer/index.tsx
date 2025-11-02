@@ -1,5 +1,6 @@
 "use client";
 
+import { DndContext, DragOverlay, pointerWithin } from "@dnd-kit/core";
 import {
   DicesIcon,
   FlagIcon,
@@ -8,6 +9,7 @@ import {
   WormIcon,
 } from "lucide-react";
 import { useId, useState } from "react";
+import { useMutative } from "use-mutative";
 import { useShallow } from "zustand/shallow";
 import { CopyButton } from "@/components/CopyButton";
 import { Button } from "@/components/ui/button";
@@ -18,43 +20,45 @@ import { useActivesStore } from "@/stores/useActivesStore";
 import { useSummonersStore } from "@/stores/useSummonersStore";
 import { toOpggMultisearchLink } from "@/types/riotId";
 import { shuffled } from "@/utils/shuffled";
+import { MemberView } from "./components/MemberView";
 import { TeamGroup } from "./components/TeamGroup";
+import { useSort } from "./hooks/useSort";
 import { TEAMS, type Team } from "./types/team";
-import { sortedNames } from "./utils/sortedNames";
 
 export const TeamBalancer = () => {
   const activeNames = useActivesStore(
     useShallow((state) => state.getActiveNames()),
   );
 
-  const [teamNames, setTeamNames] = useState<Record<Team, string[]>>({
+  const [teamNames, setTeamNames] = useMutative<Record<Team, string[]>>({
     Blue: [],
     Red: [],
   });
 
   const parameterSwitchId = useId();
   const [parameterSwitchChecked, setParameterSwitchChecked] = useState(true);
-  const sortParameter = parameterSwitchChecked ? "rank" : "level";
-
   const [isSortAsc, setIsSortAsc] = useState(true);
-
-  const teamSortedNames: Record<Team, string[]> = {
-    Blue: sortedNames(teamNames.Blue, sortParameter, isSortAsc),
-    Red: sortedNames(teamNames.Red, sortParameter, isSortAsc),
-  };
+  const sortedNames = useSort(
+    parameterSwitchChecked ? "rank" : "level",
+    isSortAsc,
+  );
 
   const copyText = () => {
     const summoners = useSummonersStore.getState().summoners;
     return TEAMS.map((team) => {
       const opggLink = toOpggMultisearchLink(
-        teamSortedNames[team]
+        teamNames[team]
           .map((name) => summoners[name])
           .map((summoner) => summoner?.riotId)
           .filter((id) => id !== undefined),
       );
-      return `【${team}】\n${opggLink}\n${teamSortedNames[team].join("\n")}`;
+      return `【${team}】\n${opggLink}\n${teamNames[team].join("\n")}`;
     }).join("\n");
   };
+
+  const dndId = useId();
+  const [activeTeam, setActiveTeam] = useState<Team | undefined>(undefined);
+  const [activeName, setActiveName] = useState<string | undefined>(undefined);
 
   return (
     <>
@@ -62,9 +66,9 @@ export const TeamBalancer = () => {
         <Button
           disabled={activeNames.length !== 10}
           onClick={() =>
-            setTeamNames({
-              Blue: activeNames.slice(0, 5),
-              Red: activeNames.slice(5, 10),
+            setTeamNames((teamNames) => {
+              teamNames.Blue = sortedNames(activeNames.slice(0, 5));
+              teamNames.Red = sortedNames(activeNames.slice(5, 10));
             })
           }
         >
@@ -102,6 +106,9 @@ export const TeamBalancer = () => {
           </div>
           ソート({isSortAsc ? "昇順" : "降順"})
         </Toggle>
+      </div>
+
+      <div className="flex items-center gap-4">
         <Button>
           <ScaleIcon />
           平均
@@ -112,8 +119,11 @@ export const TeamBalancer = () => {
         </Button>
         <Button
           onClick={() => {
-            const names = shuffled([...teamNames.Blue, ...teamNames.Red]);
-            setTeamNames({ Blue: names.slice(0, 5), Red: names.slice(5, 10) });
+            setTeamNames((teamNames) => {
+              const names = shuffled([...teamNames.Blue, ...teamNames.Red]);
+              teamNames.Blue = sortedNames(names.slice(0, 5));
+              teamNames.Red = sortedNames(names.slice(5, 10));
+            });
           }}
         >
           <DicesIcon />
@@ -122,10 +132,47 @@ export const TeamBalancer = () => {
       </div>
 
       {teamNames.Blue.length > 0 && teamNames.Red.length > 0 && (
-        <TeamGroup
-          blueNames={teamSortedNames.Blue}
-          redNames={teamSortedNames.Red}
-        />
+        <DndContext
+          id={dndId}
+          collisionDetection={pointerWithin}
+          onDragStart={({ active }) => {
+            setActiveName(active.id as string);
+            setActiveTeam(active.data.current?.team as Team);
+          }}
+          onDragOver={({ active, over }) => {
+            if (over == null || active.id === over.id) {
+              return;
+            }
+            const activeName = active.id as string;
+            const activeTeam = active.data.current?.team as Team;
+            const overName = over.id as string;
+            const overTeam = over.data.current?.team as Team;
+            setTeamNames((teamNames) => {
+              const activeIndex = teamNames[activeTeam].indexOf(activeName);
+              const overIndex = teamNames[overTeam].indexOf(overName);
+              teamNames[activeTeam][activeIndex] = overName;
+              teamNames[overTeam][overIndex] = activeName;
+            });
+            setActiveTeam(overTeam);
+          }}
+          onDragEnd={() => {
+            setActiveName(undefined);
+          }}
+        >
+          <TeamGroup
+            // blueNames={teamSortedNames.Blue}
+            // redNames={teamSortedNames.Red}
+            blueNames={teamNames.Blue}
+            redNames={teamNames.Red}
+            disabledFlip={!!activeName}
+          />
+
+          <DragOverlay>
+            {activeName && activeTeam && (
+              <MemberView name={activeName} team={activeTeam} />
+            )}
+          </DragOverlay>
+        </DndContext>
       )}
     </>
   );

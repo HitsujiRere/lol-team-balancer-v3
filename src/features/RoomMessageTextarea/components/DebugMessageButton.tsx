@@ -23,12 +23,12 @@ export const DebugMessageButton = ({ setMessage }: DebugMessageButtonProps) => {
 
   return (
     <Button
-      variant="secondary"
+      variant="destructive"
       className={cn(!debugMode && "hidden")}
       onClick={setRandomMessage}
     >
       <WrenchIcon />
-      デバッグメッセージ
+      デバッグ用仮メッセージ
     </Button>
   );
 };

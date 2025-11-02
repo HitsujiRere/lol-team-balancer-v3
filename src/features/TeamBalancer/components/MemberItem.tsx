@@ -1,14 +1,8 @@
-import { GripVerticalIcon } from "lucide-react";
-import { useRef } from "react";
-import { useShallow } from "zustand/shallow";
-import { LevelInput } from "@/components/LevelInput";
-import { MuteToggle } from "@/components/MuteToggle";
-import { RankSelect } from "@/components/RankSelect";
-import { SummonerAvatar } from "@/components/SummonerAvatar";
-import { Button } from "@/components/ui/button";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
-import { useSummonersStore } from "@/stores/useSummonersStore";
 import type { Team } from "../types/team";
+import { MemberView } from "./MemberView";
 
 export type MemberItemProps = {
   name: string;
@@ -16,49 +10,39 @@ export type MemberItemProps = {
 };
 
 export const MemberItem = ({ name, team }: MemberItemProps) => {
-  const summoner = useSummonersStore(
-    useShallow((state) => state.summoners[name]),
-  );
-  const changeSummoner = useSummonersStore((state) => state.changeSummoner);
-
-  if (summoner === undefined) {
-    return <div />;
-  }
+  const {
+    isDragging,
+    setActivatorNodeRef,
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({
+    id: name,
+    data: { team },
+  });
 
   return (
     <div
-      className={cn(
-        "flex flex-col gap-2 rounded-md border-2 bg-background p-4",
-        {
-          "border-blue-400": team === "Blue",
-          "border-red-400": team === "Red",
-        },
-      )}
+      ref={setNodeRef}
+      className={cn({
+        "opacity-50": isDragging,
+      })}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+      }}
     >
-      <div className="flex items-center gap-1 overflow-auto">
-        <Button variant="ghost" size="icon" className="cursor-grab">
-          <GripVerticalIcon />
-        </Button>
-        <SummonerAvatar
-          name={name}
-          riotId={summoner.riotId}
-          iconId={summoner.iconId}
-        />
-      </div>
-      <div className="flex items-center gap-4">
-        <LevelInput
-          level={summoner.level}
-          onChange={(level) => changeSummoner(name, { level })}
-        />
-        <RankSelect
-          rank={summoner.rank}
-          onChange={(rank) => changeSummoner(name, { rank })}
-        />
-        <MuteToggle
-          isMute={summoner.isMute}
-          onChange={(isMute) => changeSummoner(name, { isMute })}
-        />
-      </div>
+      <MemberView
+        name={name}
+        team={team}
+        handle={{
+          ref: setActivatorNodeRef,
+          attributes,
+          listeners,
+        }}
+      />
     </div>
   );
 };
