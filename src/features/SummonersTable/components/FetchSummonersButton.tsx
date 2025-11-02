@@ -42,7 +42,7 @@ export const FetchSummonersButton = () => {
           });
         } else {
           changeSummoner(name, {
-            fetchStatus: "error",
+            fetchStatus: data.status === 404 ? "not-found" : "error",
           });
           const info = await data.json();
           console.log({ name, info });

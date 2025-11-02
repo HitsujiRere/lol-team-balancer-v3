@@ -1,4 +1,9 @@
-import { SearchCheckIcon, SearchIcon, SearchXIcon } from "lucide-react";
+import {
+  SearchCheckIcon,
+  SearchIcon,
+  SearchXIcon,
+  ServerCrashIcon,
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -20,6 +25,8 @@ export const FetchStatus = ({ fetchStatus }: FetchStatusProps) => {
           <SearchCheckIcon className="size-4 stroke-blue-600" />
         ) : fetchStatus === "error" ? (
           <SearchXIcon className="size-4 stroke-red-600" />
+        ) : fetchStatus === "not-found" ? (
+          <ServerCrashIcon className="size-4 stroke-red-600" />
         ) : undefined}
       </TooltipTrigger>
       <TooltipContent>
@@ -27,8 +34,10 @@ export const FetchStatus = ({ fetchStatus }: FetchStatusProps) => {
           <div>サモナー検索中</div>
         ) : fetchStatus === "success" ? (
           <div>サモナーが見つかりました！</div>
-        ) : fetchStatus === "error" ? (
+        ) : fetchStatus === "not-found" ? (
           <div>サモナーが見つかりませんでした😢</div>
+        ) : fetchStatus === "error" ? (
+          <div>サモナー検索に失敗しました😖</div>
         ) : undefined}
       </TooltipContent>
     </Tooltip>
