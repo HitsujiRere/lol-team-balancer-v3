@@ -10,7 +10,6 @@ import {
   WormIcon,
 } from "lucide-react";
 import { useId, useState } from "react";
-import { useMutative } from "use-mutative";
 import { useShallow } from "zustand/shallow";
 import { CopyButton } from "@/components/CopyButton";
 import { Button } from "@/components/ui/button";
@@ -23,7 +22,7 @@ import { toOpggMultisearchLink } from "@/types/riotId";
 import { shuffled } from "@/utils/shuffled";
 import { MemberView } from "./components/MemberView";
 import { TeamGroup } from "./components/TeamGroup";
-import { useSort } from "./hooks/useSort";
+import { useSortTeamNames } from "./hooks/useSortTeamNames";
 import { TEAMS, type Team } from "./types/team";
 
 export const TeamBalancer = () => {
@@ -31,24 +30,18 @@ export const TeamBalancer = () => {
     useShallow((state) => state.getActiveNames()),
   );
 
-  const [teamNames, setTeamNames] = useMutative<Record<Team, string[]>>({
-    Blue: [],
-    Red: [],
-  });
-
   const parameterSwitchId = useId();
-  const [parameterSwitchChecked, setParameterSwitchChecked] = useState(true);
-  const [isSortAsc, setIsSortAsc] = useState(true);
-  const sortedNames = useSort(
-    parameterSwitchChecked ? "rank" : "level",
+  const {
+    teamNames,
+    setTeamNames,
+    isSorting,
+    sortTeamNames,
+    sortParameter,
+    setSortParameter,
     isSortAsc,
-  );
-
-  const [isSorting, setIsSorting] = useState(true);
-  const displayTeamNames: Record<Team, string[]> = {
-    Blue: isSorting ? sortedNames(teamNames.Blue) : teamNames.Blue,
-    Red: isSorting ? sortedNames(teamNames.Red) : teamNames.Red,
-  };
+    setIsSortAsc,
+    swapMember,
+  } = useSortTeamNames();
 
   const copyText = () => {
     const summoners = useSummonersStore.getState().summoners;
@@ -73,9 +66,9 @@ export const TeamBalancer = () => {
         <Button
           disabled={activeNames.length !== 10}
           onClick={() =>
-            setTeamNames((teamNames) => {
-              teamNames.Blue = sortedNames(activeNames.slice(0, 5));
-              teamNames.Red = sortedNames(activeNames.slice(5, 10));
+            setTeamNames({
+              Blue: activeNames.slice(0, 5),
+              Red: activeNames.slice(5, 10),
             })
           }
         >
@@ -89,7 +82,7 @@ export const TeamBalancer = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <Button disabled={isSorting} onClick={() => setIsSorting(true)}>
+        <Button disabled={isSorting} onClick={() => sortTeamNames()}>
           <div className="relative">
             <SortDescIcon
               className={cn("transition-opacity", {
@@ -111,14 +104,16 @@ export const TeamBalancer = () => {
           <Switch
             side="both"
             id={parameterSwitchId}
-            checked={parameterSwitchChecked}
-            onCheckedChange={setParameterSwitchChecked}
+            checked={sortParameter === "rank"}
+            onCheckedChange={(checked) =>
+              setSortParameter(checked ? "rank" : "level")
+            }
           />
           <Label htmlFor={parameterSwitchId} className="text-base">
             ランク
           </Label>
         </div>
-        <Button onClick={() => setIsSortAsc((asc) => !asc)}>
+        <Button onClick={() => setIsSortAsc(!isSortAsc)}>
           <div className="relative">
             <SortDescIcon
               className={cn("transition-transform", {
@@ -143,8 +138,7 @@ export const TeamBalancer = () => {
           onClick={() => {
             setTeamNames((teamNames) => {
               const names = shuffled([...teamNames.Blue, ...teamNames.Red]);
-              teamNames.Blue = sortedNames(names.slice(0, 5));
-              teamNames.Red = sortedNames(names.slice(5, 10));
+              return { Blue: names.slice(0, 5), Red: names.slice(5, 10) };
             });
           }}
         >
@@ -169,22 +163,16 @@ export const TeamBalancer = () => {
             const activeTeam = active.data.current?.team as Team;
             const overName = over.id as string;
             const overTeam = over.data.current?.team as Team;
-            setTeamNames((teamNames) => {
-              const activeIndex = teamNames[activeTeam].indexOf(activeName);
-              const overIndex = teamNames[overTeam].indexOf(overName);
-              teamNames[activeTeam][activeIndex] = overName;
-              teamNames[overTeam][overIndex] = activeName;
-            });
+            swapMember(activeTeam, activeName, overTeam, overName);
             setActiveTeam(overTeam);
-            setIsSorting(false);
           }}
           onDragEnd={() => {
             setActiveName(undefined);
           }}
         >
           <TeamGroup
-            blueNames={displayTeamNames.Blue}
-            redNames={displayTeamNames.Red}
+            blueNames={teamNames.Blue}
+            redNames={teamNames.Red}
             disabledFlip={!!activeName}
           />
           <DragOverlay>
