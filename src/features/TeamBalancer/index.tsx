@@ -13,17 +13,21 @@ import { useId, useState } from "react";
 import { useShallow } from "zustand/shallow";
 import { CopyButton } from "@/components/CopyButton";
 import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { useActivesStore } from "@/stores/useActivesStore";
 import { useSummonersStore } from "@/stores/useSummonersStore";
 import { toOpggMultisearchLink } from "@/types/riotId";
-import { shuffled } from "@/utils/shuffled";
 import { MemberView } from "./components/MemberView";
 import { TeamGroup } from "./components/TeamGroup";
 import { useSortTeamNames } from "./hooks/useSortTeamNames";
 import { TEAMS, type Team } from "./types/team";
+import { balancedAverage } from "./utils/balancedAverage";
+import { balancedMeander } from "./utils/balancedMeander";
+import { balancedRandomly } from "./utils/balancedRandomly";
 
 export const TeamBalancer = () => {
   const activeNames = useActivesStore(
@@ -55,6 +59,8 @@ export const TeamBalancer = () => {
       return `【${team}】\n${opggLink}\n${teamNames[team].join("\n")}`;
     }).join("\n");
   };
+
+  const [averageRange, setAverageRange] = useState(2.0);
 
   const dndId = useId();
   const [activeTeam, setActiveTeam] = useState<Team | undefined>(undefined);
@@ -126,21 +132,42 @@ export const TeamBalancer = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <Button>
-          <ScaleIcon />
-          平均
-        </Button>
-        <Button>
+        <ButtonGroup>
+          <Button
+            onClick={() =>
+              setTeamNames((teamNames) =>
+                balancedAverage(teamNames, sortParameter),
+              )
+            }
+          >
+            <ScaleIcon />
+            平均
+          </Button>
+          <div className="flex flex-col items-center justify-evenly rounded-md border px-2">
+            <div className="text-sm">許容平均ランク差 {averageRange}</div>
+            <Slider
+              className="w-40"
+              step={0.1}
+              max={4}
+              value={[averageRange]}
+              onValueChange={(values) => setAverageRange(values[0] ?? 0)}
+            />
+          </div>
+        </ButtonGroup>
+        <Button
+          onClick={() =>
+            setTeamNames((teamNames) =>
+              balancedMeander(teamNames, sortParameter),
+            )
+          }
+        >
           <WormIcon />
           蛇行
         </Button>
         <Button
-          onClick={() => {
-            setTeamNames((teamNames) => {
-              const names = shuffled([...teamNames.Blue, ...teamNames.Red]);
-              return { Blue: names.slice(0, 5), Red: names.slice(5, 10) };
-            });
-          }}
+          onClick={() =>
+            setTeamNames((teamNames) => balancedRandomly(teamNames))
+          }
         >
           <DicesIcon />
           ランダム

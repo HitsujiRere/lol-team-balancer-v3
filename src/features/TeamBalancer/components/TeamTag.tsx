@@ -24,9 +24,10 @@ export const TeamTag = ({ team, names }: TeamTagProps) => {
   );
 
   const aveLevel = average(summoners.map((summoner) => summoner.level));
-  const aveRank = pointToRank(
-    average(summoners.map((summoner) => rankToPoint(summoner.rank))),
+  const aveRankPoint = average(
+    summoners.map((summoner) => rankToPoint(summoner.rank)),
   );
+  const aveRank = pointToRank(aveRankPoint);
 
   const opggLink = toOpggMultisearchLink(
     summoners
@@ -46,8 +47,10 @@ export const TeamTag = ({ team, names }: TeamTagProps) => {
       )}
     >
       <div className="font-bold text-lg">{team} Team</div>
-      <div className="flex items-center gap-4">
-        <div>平均ランク: {formatRank(aveRank)}</div>
+      <div className="flex items-center gap-8">
+        <div>
+          平均ランク: {formatRank(aveRank)} ({aveRankPoint}pt)
+        </div>
         <div>平均レベル: {aveLevel}</div>
       </div>
       <div className="flex items-center gap-4">
