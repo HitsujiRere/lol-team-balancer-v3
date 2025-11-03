@@ -1,3 +1,4 @@
+import { shuffled } from "@/utils/shuffled";
 import type { TeamNames } from "../types/team";
 import { sortedNames } from "./sortedNames";
 
@@ -6,7 +7,7 @@ export const balancedMeander = (
   parameter: "level" | "rank",
 ): TeamNames => {
   const names = sortedNames(
-    [...teamNames.Blue, ...teamNames.Red],
+    shuffled([...teamNames.Blue, ...teamNames.Red]),
     parameter,
     true,
   );

@@ -10,6 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useRoomNamesStore } from "@/stores/useRoomNamesStore";
+import { DebugLevelButton } from "./components/DebugLevelButton";
+import { DebugRankButton } from "./components/DebugRankButton";
 import { FetchSummonersButton } from "./components/FetchSummonersButton";
 import { HeaderRow } from "./components/HeaderRow";
 import { SummonerRow } from "./components/SummonerRow";
@@ -19,9 +21,11 @@ export const SummonersTable = () => {
 
   return (
     <div className="relative grid gap-2">
-      <div className="flex items-end gap-8">
+      <div className="flex flex-wrap items-end gap-x-8 gap-y-2">
         <Label>サモナーテーブル</Label>
         <FetchSummonersButton />
+        <DebugRankButton />
+        <DebugLevelButton />
       </div>
 
       <div className="overflow-x-auto rounded-md border">

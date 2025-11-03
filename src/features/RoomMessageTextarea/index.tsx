@@ -1,7 +1,7 @@
 "use client";
 
 import { XIcon } from "lucide-react";
-import { useEffect, useEffectEvent, useId, useState } from "react";
+import { useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,11 +16,11 @@ export const RoomMessageTextarea = () => {
 
   const [message, setMessage] = useState("");
 
-  const handleSetNames = useEffectEvent((message: string) => {
-    const riotIds = findRiotIds(message);
+  const updateRiotIds = (newMessage: string) => {
+    setMessage(newMessage);
+    const riotIds = findRiotIds(newMessage);
     setMessageRiotIds(riotIds);
-  });
-  useEffect(() => handleSetNames(message), [message]);
+  };
 
   const id = useId();
 
@@ -40,7 +40,7 @@ export const RoomMessageTextarea = () => {
           variant="ghost"
           size="icon-sm"
           className="absolute top-2 right-2"
-          onClick={() => setMessage("")}
+          onClick={() => updateRiotIds("")}
           disabled={message === ""}
         >
           <XIcon />
@@ -48,7 +48,7 @@ export const RoomMessageTextarea = () => {
       </div>
 
       <div>
-        <DebugMessageButton setMessage={setMessage} />
+        <DebugMessageButton setMessage={updateRiotIds} />
       </div>
     </div>
   );

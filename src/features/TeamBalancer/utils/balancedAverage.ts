@@ -8,6 +8,7 @@ import type { TeamNames } from "../types/team";
 export const balancedAverage = (
   teamNames: TeamNames,
   parameter: "level" | "rank",
+  choicePercent: number,
 ): TeamNames => {
   const names = shuffled([...teamNames.Blue, ...teamNames.Red]);
   const summoners = useSummonersStore.getState().summoners;
@@ -24,7 +25,7 @@ export const balancedAverage = (
     names.map((name) => [name, summoners[name]?.isMute ?? false]),
   );
 
-  const bestTeamNamesList: TeamNames[] = [];
+  const teamNamesList: [number, TeamNames][] = [];
   for (let i = 0; i < 1 << names.length; i++) {
     const blue: string[] = [];
     const red: string[] = [];
@@ -54,9 +55,12 @@ export const balancedAverage = (
     const bluePoint = average(blue.map((name) => points[name] ?? 0));
     const redPoint = average(red.map((name) => points[name] ?? 0));
     const pointDiff = Math.abs(bluePoint - redPoint);
-    if (pointDiff < 1) {
-      bestTeamNamesList.push({ Blue: blue, Red: red });
-    }
+    teamNamesList.push([pointDiff, { Blue: blue, Red: red }]);
   }
-  return choice(bestTeamNamesList);
+
+  teamNamesList.sort((x, y) => x[0] - y[0]);
+
+  return choice(
+    teamNamesList.slice(0, teamNamesList.length * choicePercent),
+  )[1];
 };
