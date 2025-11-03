@@ -21,7 +21,7 @@ export default function Home() {
           <SummonersTable />
         </section>
 
-        <div>
+        <div className="max-2xl:hidden">
           <div className="h-full w-0 border-r-2" />
         </div>
 

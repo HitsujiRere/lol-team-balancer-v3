@@ -33,7 +33,7 @@ export const RoomMessageTextarea = () => {
           id={id}
           className="min-h-32"
           value={message}
-          onChange={(event) => setMessage(event.target.value)}
+          onChange={(event) => updateRiotIds(event.target.value)}
         />
         <Button
           title="メッセージを削除"
