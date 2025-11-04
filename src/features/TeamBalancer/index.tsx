@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { useId, useState } from "react";
 import { useShallow } from "zustand/shallow";
-import { CopyButton } from "@/components/CopyButton";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Label } from "@/components/ui/label";
@@ -19,12 +18,10 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { useActivesStore } from "@/stores/useActivesStore";
-import { useSummonersStore } from "@/stores/useSummonersStore";
-import { toOpggMultisearchLink } from "@/types/riotId";
 import { MemberView } from "./components/MemberView";
 import { TeamGroup } from "./components/TeamGroup";
 import { useSortTeamNames } from "./hooks/useSortTeamNames";
-import { TEAMS, type Team } from "./types/team";
+import type { Team } from "./types/team";
 import { balancedAverage } from "./utils/balancedAverage";
 import { balancedMeander } from "./utils/balancedMeander";
 import { balancedRandomly } from "./utils/balancedRandomly";
@@ -46,19 +43,6 @@ export const TeamBalancer = () => {
     setIsSortAsc,
     swapMember,
   } = useSortTeamNames();
-
-  const copyText = () => {
-    const summoners = useSummonersStore.getState().summoners;
-    return TEAMS.map((team) => {
-      const opggLink = toOpggMultisearchLink(
-        teamNames[team]
-          .map((name) => summoners[name])
-          .map((summoner) => summoner?.riotId)
-          .filter((id) => id !== undefined),
-      );
-      return `【${team}】\n${opggLink}\n${teamNames[team].join("\n")}`;
-    }).join("\n");
-  };
 
   const [averageRange, setAverageRange] = useState(10);
 
@@ -97,10 +81,6 @@ export const TeamBalancer = () => {
           <Label htmlFor={parameterSwitchId} className="text-base">
             ランク
           </Label>
-        </div>
-
-        <div>
-          <CopyButton data={copyText} />
         </div>
       </div>
 

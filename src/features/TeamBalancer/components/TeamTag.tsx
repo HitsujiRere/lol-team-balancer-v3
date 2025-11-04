@@ -39,7 +39,7 @@ export const TeamTag = ({ team, names }: TeamTagProps) => {
   return (
     <div
       className={cn(
-        "flex flex-col items-center gap-2 place-self-stretch rounded-md border-2 p-4",
+        "flex flex-col items-center justify-center gap-2 place-self-stretch rounded-md border-2 p-4",
         {
           "border-blue-400 bg-blue-100": team === "Blue",
           "border-red-400 bg-red-100": team === "Red",
@@ -47,13 +47,13 @@ export const TeamTag = ({ team, names }: TeamTagProps) => {
       )}
     >
       <div className="font-bold text-lg">{team} Team</div>
-      <div className="flex items-center gap-8">
+      <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2">
         <div>
           平均ランク: {formatRank(aveRank)} ({aveRankPoint}pt)
         </div>
         <div>平均レベル: {aveLevel}</div>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
         <a href={opggLink} target="_blank">
           <Button variant="secondary">
             <LinkIcon />
