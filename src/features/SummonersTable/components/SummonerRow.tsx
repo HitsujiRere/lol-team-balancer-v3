@@ -1,6 +1,7 @@
 import { Trash2Icon } from "lucide-react";
 import { useShallow } from "zustand/shallow";
 import { LevelInput } from "@/components/LevelInput";
+import { LockTeamSelect } from "@/components/LockTeamSelect";
 import { MuteToggle } from "@/components/MuteToggle";
 import { RankSelect } from "@/components/RankSelect";
 import { SummonerAvatar } from "@/components/SummonerAvatar";
@@ -68,6 +69,12 @@ export const SummonerRow = ({ name }: SummonerRowProps) => {
             </div>
           )}
         </div>
+      </TableCell>
+      <TableCell>
+        <LockTeamSelect
+          lockTeam={summoner.lockTeam}
+          onChange={(lockTeam) => changeSummoner(name, { lockTeam })}
+        />
       </TableCell>
       <TableCell>
         <MuteToggle

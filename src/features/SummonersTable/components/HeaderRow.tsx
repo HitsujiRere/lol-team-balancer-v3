@@ -37,6 +37,7 @@ export const HeaderRow = () => {
       <TableHead></TableHead>
       <TableHead>レベル</TableHead>
       <TableHead>ランク</TableHead>
+      <TableHead>チーム固定</TableHead>
       <TableHead>聞き専</TableHead>
       <TableHead>削除</TableHead>
     </TableRow>

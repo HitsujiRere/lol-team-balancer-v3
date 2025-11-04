@@ -1,4 +1,4 @@
-import { MicIcon, MicOff } from "lucide-react";
+import { MicIcon, MicOffIcon } from "lucide-react";
 import { Toggle } from "../ui/toggle";
 
 export type MuteToggleProps = {
@@ -16,7 +16,7 @@ export const MuteToggle = ({ isMute, onChange }: MuteToggleProps) => {
       onPressedChange={(isMute) => onChange(isMute)}
     >
       <MicIcon className="transition-opacity group-data-[state=on]/toggle:opacity-0" />
-      <MicOff className="absolute transition-opacity group-data-[state=off]/toggle:opacity-0" />
+      <MicOffIcon className="absolute transition-opacity group-data-[state=off]/toggle:opacity-0" />
     </Toggle>
   );
 };

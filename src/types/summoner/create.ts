@@ -14,5 +14,6 @@ export const createSummoner = (
     fetchStatus: init?.fetchStatus ?? "idle",
     rankWins: init?.rankWins,
     rankLosses: init?.rankLosses,
+    lockTeam: init?.lockTeam ?? "None",
   };
 };

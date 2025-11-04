@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { mutative } from "zustand-mutative";
+import { count } from "@/utils/count";
 import { useRoomNamesStore } from "./useRoomNamesStore";
 
 type CheckedState = boolean | "indeterminate";
@@ -20,9 +21,7 @@ export const useActivesStore = create<State>()(
     isActive: (name) => get().actives.get(name) ?? true,
     isAllActive: () => {
       const size = get().actives.size;
-      const actives = get()
-        .actives.values()
-        .reduce((cnt, active) => (active ? cnt + 1 : cnt), 0);
+      const actives = count(get().actives.values().toArray());
       if (actives === size) return true;
       if (actives === 0) return false;
       return "indeterminate";

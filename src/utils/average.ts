@@ -1,4 +1,4 @@
-export const average = (array: readonly number[]): number => {
+export const average = (array: number[]): number => {
   if (array.length === 0) {
     return 0;
   }

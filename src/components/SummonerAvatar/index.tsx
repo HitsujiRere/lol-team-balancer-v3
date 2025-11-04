@@ -14,7 +14,7 @@ export const SummonerAvatar = ({
   iconId,
 }: SummonerAvatarProps) => {
   return (
-    <div className="flex items-center">
+    <div className="flex flex-1 items-center">
       <Avatar>
         {iconId && (
           <AvatarImage

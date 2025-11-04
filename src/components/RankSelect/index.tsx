@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { formatRank, RANKS, type Rank } from "@/types/rank";
+import { formatRank, RANKS, type Rank, rankToPoint } from "@/types/rank";
 import { NativeSelect, NativeSelectOption } from "../ui/native-select";
 import { rankClasses } from "./utils/rankClasses";
 
@@ -12,7 +12,7 @@ export const RankSelect = ({ rank, onChange }: RankSelectProps) => {
   return (
     <NativeSelect
       value={rank}
-      className={cn(rankClasses(rank), "w-34")}
+      className={cn(rankClasses(rank), "w-42")}
       onChange={(event) => onChange(event.target.value as Rank)}
     >
       {RANKS.map((optionRank) => (
@@ -21,7 +21,7 @@ export const RankSelect = ({ rank, onChange }: RankSelectProps) => {
           value={optionRank}
           className={rankClasses(optionRank)}
         >
-          {formatRank(optionRank)}
+          {formatRank(optionRank)} {rankToPoint(optionRank)}pt
         </NativeSelectOption>
       ))}
     </NativeSelect>

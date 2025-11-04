@@ -6,6 +6,7 @@ import { GripVerticalIcon } from "lucide-react";
 import { useShallow } from "zustand/shallow";
 import { LevelInput } from "@/components/LevelInput";
 import { MuteToggle } from "@/components/MuteToggle";
+import { PinToggle } from "@/components/PinToggle";
 import { RankSelect } from "@/components/RankSelect";
 import { SummonerAvatar } from "@/components/SummonerAvatar";
 import { Button } from "@/components/ui/button";
@@ -58,6 +59,12 @@ export const MemberView = ({ name, team, handle }: MemberViewProps) => {
           name={name}
           riotId={summoner.riotId}
           iconId={summoner.iconId}
+        />
+        <PinToggle
+          isLock={summoner.lockTeam !== "None"}
+          onChange={(isLock) =>
+            changeSummoner(name, { lockTeam: isLock ? team : "None" })
+          }
         />
       </div>
       <div className="flex items-center gap-4">

@@ -40,6 +40,7 @@ export const useSummonersStore = create<State>()(
           fetchStatus: changes.fetchStatus ?? current.fetchStatus,
           rankWins: changes.rankWins ?? current.rankWins,
           rankLosses: changes.rankLosses ?? current.rankLosses,
+          lockTeam: changes.lockTeam ?? current.lockTeam,
         };
       }),
   })),

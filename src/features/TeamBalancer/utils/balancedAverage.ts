@@ -2,6 +2,7 @@ import { useSummonersStore } from "@/stores/useSummonersStore";
 import { rankToPoint } from "@/types/rank";
 import { average } from "@/utils/average";
 import { choice } from "@/utils/choice";
+import { count } from "@/utils/count";
 import { shuffled } from "@/utils/shuffled";
 import type { TeamNames } from "../types/team";
 
@@ -21,9 +22,6 @@ export const balancedAverage = (
       }
     }),
   );
-  const isMutes = Object.fromEntries(
-    names.map((name) => [name, summoners[name]?.isMute ?? false]),
-  );
 
   const teamNamesList: [number, TeamNames][] = [];
   for (let i = 0; i < 1 << names.length; i++) {
@@ -40,14 +38,17 @@ export const balancedAverage = (
       continue;
     }
 
-    const blueMutes = blue.reduce(
-      (mutes, name) => (isMutes[name] ? mutes + 1 : mutes),
-      0,
-    );
-    const redMutes = red.reduce(
-      (mutes, name) => (isMutes[name] ? mutes + 1 : mutes),
-      0,
-    );
+    console.log(blue.map((name) => summoners[name]?.lockTeam));
+
+    if (
+      blue.some((name) => summoners[name]?.lockTeam === "Red") ||
+      red.some((name) => summoners[name]?.lockTeam === "Blue")
+    ) {
+      continue;
+    }
+
+    const blueMutes = count(blue.map((name) => summoners[name]?.isMute));
+    const redMutes = count(red.map((name) => summoners[name]?.isMute));
     if (Math.abs(blueMutes - redMutes) > 1) {
       continue;
     }
@@ -61,6 +62,6 @@ export const balancedAverage = (
   teamNamesList.sort((x, y) => x[0] - y[0]);
 
   return choice(
-    teamNamesList.slice(0, teamNamesList.length * choicePercent),
+    teamNamesList.slice(0, Math.ceil(teamNamesList.length * choicePercent)),
   )[1];
 };
