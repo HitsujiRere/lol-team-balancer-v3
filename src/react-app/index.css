@@ -1,1 +1,18 @@
+/* M PLUS Rounded 1c */
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap");
+
 @import "tailwindcss";
+
+/* HeroUI */
+@plugin "./hero.ts";
+@source "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-m-plus-rounded: "M PLUS Rounded 1c", var(--font-sans);
+}
+
+body {
+  @apply font-m-plus-rounded;
+}
