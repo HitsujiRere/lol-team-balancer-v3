@@ -7,6 +7,8 @@ export const MainLayout = ({ children }: { children?: ReactNode }) => {
       <Header />
 
       <main className="grid gap-8 px-8 py-4">{children}</main>
+
+      <footer className="mb-32" />
     </div>
   );
 };

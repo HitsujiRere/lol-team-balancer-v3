@@ -12,7 +12,6 @@ export const MuteToggle = ({
     <Button
       aria-label="is-mute"
       onPress={() => onChange(!isMute)}
-      size="sm"
       isIconOnly
       variant={isMute ? "flat" : "light"}
     >
