@@ -31,10 +31,9 @@ export const useUpdateRoom = () =>
           .forEach((name) => {
             selection[name] = "unlisted";
           });
-
         // 追加
         newNames
-          .filter((name) => !selection[name])
+          .filter((name) => selection[name] === "unlisted" || !selection[name])
           .forEach((name) => {
             selection[name] = "selected";
           });

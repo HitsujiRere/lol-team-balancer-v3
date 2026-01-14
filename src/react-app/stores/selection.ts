@@ -8,11 +8,11 @@ export const selectionAtom = atomWithImmer<Record<string, Selection>>({});
 
 export const selectionFamily = atomFamily((name: string) =>
   atom(
-    (get) => get(selectionAtom)[name],
-    (get, set, arg: (selection: Selection) => void) => {
+    (get) => get(selectionAtom)[name] === "selected",
+    (get, set, arg: boolean) => {
       if (get(selectionAtom)[name]) {
         set(selectionAtom, (draft) => {
-          arg(draft[name]);
+          draft[name] = arg ? "selected" : "unselected";
         });
       }
     },

@@ -12,14 +12,9 @@ import { ScaleIcon, SearchIcon } from "lucide-react";
 import { roomAtom } from "../../stores/room";
 import { summonersAtom } from "../../stores/summoner";
 import { DebugActions } from "./components/DebugActions";
+import { columns, HeaderCell } from "./components/HeaderCell";
 import { SummonerCell } from "./components/SummonerCell";
-
-const columns = [
-  { name: "名前", uid: "name" },
-  { name: "レベル", uid: "level" },
-  { name: "ランク", uid: "rank" },
-  { name: "聞き専", uid: "isMute" },
-];
+import { SummonerSelect } from "./components/SummonerSelect";
 
 export const RoomTable = ({
   onOpenGroupEditor,
@@ -53,11 +48,8 @@ export const RoomTable = ({
       <Table aria-label="Example table with custom cells" removeWrapper>
         <TableHeader columns={columns}>
           {(column) => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === "actions" ? "center" : "start"}
-            >
-              {column.name}
+            <TableColumn key={column.uid}>
+              <HeaderCell name={column.name} uid={column.uid} />
             </TableColumn>
           )}
         </TableHeader>
@@ -71,7 +63,11 @@ export const RoomTable = ({
             <TableRow key={item.name}>
               {(column) => (
                 <TableCell>
-                  <SummonerCell summoner={item} column={column} />
+                  {column === "select" ? (
+                    <SummonerSelect name={item.name} column={column} />
+                  ) : (
+                    <SummonerCell summoner={item} column={column} />
+                  )}
                 </TableCell>
               )}
             </TableRow>
