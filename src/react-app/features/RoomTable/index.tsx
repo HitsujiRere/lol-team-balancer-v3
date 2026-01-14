@@ -1,8 +1,5 @@
 import {
   Button,
-  cn,
-  Input,
-  NumberInput,
   Table,
   TableBody,
   TableCell,
@@ -10,106 +7,41 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/react";
-import { MicIcon, MicOffIcon, ScaleIcon, SearchIcon } from "lucide-react";
+import { useAtomValue } from "jotai";
+import { ScaleIcon, SearchIcon } from "lucide-react";
+import { roomAtom } from "../../stores/roomAtom";
 import type { Summoner } from "../../types/summoner";
+import { renderCell } from "./utils/renderCell";
 
-export const columns = [
+const columns = [
   { name: "名前", uid: "name" },
   { name: "レベル", uid: "level" },
   { name: "ランク", uid: "rank" },
   { name: "聞き専", uid: "is-mute" },
 ];
 
-export const users: Summoner[] = [
-  {
-    name: "りんご #JP1",
+export const RoomTable = ({
+  onOpenGroupEditor,
+}: {
+  onOpenGroupEditor: () => void;
+}) => {
+  const rooms = useAtomValue(roomAtom);
+
+  const users: Summoner[] = rooms.map((name) => ({
+    name,
     level: 12,
     rank: "IRON_IV",
     isMute: false,
-  },
-  {
-    name: "バナナ #JP1",
-    level: 23,
-    rank: "BRONZE_III",
-    isMute: false,
-  },
-  {
-    name: "ぶどう #JP1",
-    level: 34,
-    rank: "SILVER_II",
-    isMute: true,
-  },
-  {
-    name: "いちご #JP1",
-    level: 45,
-    rank: "GOLD_I",
-    isMute: false,
-  },
-  {
-    name: "みかん #JP1",
-    level: 56,
-    rank: "PLATINUM_IV",
-    isMute: false,
-  },
-];
+  }));
 
-const renderCell = (summoner: Summoner, columnKey: React.Key) => {
-  if (columnKey === "name") {
-    return <div>{summoner.name}</div>;
-  }
-
-  if (columnKey === "level") {
-    return (
-      <NumberInput
-        aria-label="level"
-        value={summoner.level}
-        minValue={0}
-        onValueChange={() => {}}
-        className="max-w-32"
-        isWheelDisabled
-        startContent={<span>Lv.</span>}
-      />
-    );
-  }
-
-  if (columnKey === "rank") {
-    return (
-      <Input
-        aria-label="rank"
-        value={summoner.rank}
-        onValueChange={() => {}}
-        className="max-w-32"
-      />
-    );
-  }
-
-  if (columnKey === "is-mute") {
-    return (
-      <Button
-        aria-label="is-mute"
-        isIconOnly
-        size="sm"
-        variant={summoner.isMute ? "flat" : "light"}
-        className="group"
-      >
-        <MicIcon
-          className={cn("absolute size-4", summoner.isMute && "opacity-0")}
-        />
-        <MicOffIcon
-          className={cn("absolute size-4", !summoner.isMute && "opacity-0")}
-        />
-      </Button>
-    );
-  }
-
-  return 0;
-};
-
-export const RoomTable = () => {
   return (
     <div className="grid gap-4">
       <div className="flex gap-8">
-        <Button color="primary" startContent={<ScaleIcon />}>
+        <Button
+          color="primary"
+          startContent={<ScaleIcon />}
+          onPress={onOpenGroupEditor}
+        >
           チーム分け
         </Button>
         <Button color="primary" startContent={<SearchIcon />}>
