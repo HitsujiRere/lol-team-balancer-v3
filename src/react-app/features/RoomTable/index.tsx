@@ -9,8 +9,8 @@ import {
 } from "@heroui/react";
 import { useAtomValue } from "jotai";
 import { ScaleIcon, SearchIcon } from "lucide-react";
-import { roomAtom } from "../../stores/roomAtom";
-import type { Summoner } from "../../types/summoner";
+import { roomAtom } from "../../stores/room";
+import { summonersAtom } from "../../stores/summoner";
 import { renderCell } from "./utils/renderCell";
 
 const columns = [
@@ -27,12 +27,10 @@ export const RoomTable = ({
 }) => {
   const rooms = useAtomValue(roomAtom);
 
-  const users: Summoner[] = rooms.map((name) => ({
-    name,
-    level: 12,
-    rank: "IRON_IV",
-    isMute: false,
-  }));
+  const summoners = useAtomValue(summonersAtom);
+  const summonerList = Object.entries(summoners)
+    .filter(([name]) => rooms.includes(name))
+    .map(([, summoner]) => summoner);
 
   return (
     <div className="grid gap-4">
@@ -61,7 +59,7 @@ export const RoomTable = ({
           )}
         </TableHeader>
         <TableBody
-          items={users}
+          items={summonerList}
           emptyContent={
             "ロビーチャットをコピペすることで簡単に追加できます！😊"
           }
