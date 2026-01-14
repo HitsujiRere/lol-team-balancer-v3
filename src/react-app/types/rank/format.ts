@@ -35,6 +35,6 @@ const rankToJp: Record<Rank, string> = {
   CHALLENGER: "Challenger",
 } as const;
 
-export const formatRank = (rank: Rank): string => {
-  return rankToJp[rank] ?? rank;
+export const formatRank = (rank?: Rank): string => {
+  return rankToJp[rank ?? "UNRANKED"];
 };

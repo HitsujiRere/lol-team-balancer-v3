@@ -1,4 +1,5 @@
 export { formatRank } from "./format";
+export { formatShortRank } from "./formatShort";
 export {
   isBronze,
   isDiamond,

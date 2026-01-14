@@ -1,10 +1,8 @@
-import type { Rank, Tier } from "./rank";
-
-export const isUnranked = (tier: Tier | Rank) => {
+export const isUnranked = (tier: unknown) => {
   return tier === "UNRANKED";
 };
 
-export const isIron = (tier: Tier | Rank) => {
+export const isIron = (tier: unknown) => {
   return (
     tier === "IRON" ||
     tier === "IRON_I" ||
@@ -14,7 +12,7 @@ export const isIron = (tier: Tier | Rank) => {
   );
 };
 
-export const isBronze = (tier: Tier | Rank) => {
+export const isBronze = (tier: unknown) => {
   return (
     tier === "BRONZE" ||
     tier === "BRONZE_I" ||
@@ -24,7 +22,7 @@ export const isBronze = (tier: Tier | Rank) => {
   );
 };
 
-export const isSilver = (tier: Tier | Rank) => {
+export const isSilver = (tier: unknown) => {
   return (
     tier === "SILVER" ||
     tier === "SILVER_I" ||
@@ -34,7 +32,7 @@ export const isSilver = (tier: Tier | Rank) => {
   );
 };
 
-export const isGold = (tier: Tier | Rank) => {
+export const isGold = (tier: unknown) => {
   return (
     tier === "GOLD" ||
     tier === "GOLD_I" ||
@@ -44,7 +42,7 @@ export const isGold = (tier: Tier | Rank) => {
   );
 };
 
-export const isPlatinum = (tier: Tier | Rank) => {
+export const isPlatinum = (tier: unknown) => {
   return (
     tier === "PLATINUM" ||
     tier === "PLATINUM_I" ||
@@ -54,7 +52,7 @@ export const isPlatinum = (tier: Tier | Rank) => {
   );
 };
 
-export const isEmerald = (tier: Tier | Rank) => {
+export const isEmerald = (tier: unknown) => {
   return (
     tier === "EMERALD" ||
     tier === "EMERALD_I" ||
@@ -64,7 +62,7 @@ export const isEmerald = (tier: Tier | Rank) => {
   );
 };
 
-export const isDiamond = (tier: Tier | Rank) => {
+export const isDiamond = (tier: unknown) => {
   return (
     tier === "DIAMOND" ||
     tier === "DIAMOND_I" ||
@@ -74,6 +72,6 @@ export const isDiamond = (tier: Tier | Rank) => {
   );
 };
 
-export const isMasterPlus = (tier: Tier | Rank) => {
+export const isMasterPlus = (tier: unknown) => {
   return tier === "MASTER" || tier === "GRANDMASTER" || tier === "CHALLENGER";
 };

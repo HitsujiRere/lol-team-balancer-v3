@@ -13,6 +13,30 @@
   --font-m-plus-rounded: "M PLUS Rounded 1c", var(--font-sans);
 }
 
+@theme {
+  --color-brown-50: #efebe9;
+  --color-brown-100: #d7ccc8;
+  --color-brown-200: #bcaaa4;
+  --color-brown-300: #a1887f;
+  --color-brown-400: #8d6e63;
+  --color-brown-500: #795548;
+  --color-brown-600: #6d4c41;
+  --color-brown-700: #5d4037;
+  --color-brown-800: #4e342e;
+  --color-brown-900: #3e2723;
+}
+
+@theme inline {
+  --color-lol-iron: var(--color-gray-500);
+  --color-lol-bronze: var(--color-brown-400);
+  --color-lol-silver: var(--color-gray-400);
+  --color-lol-gold: var(--color-yellow-400);
+  --color-lol-platinum: var(--color-teal-400);
+  --color-lol-emerald: var(--color-green-400);
+  --color-lol-diamond: var(--color-blue-400);
+  --color-lol-master: var(--color-pink-400);
+}
+
 body {
   @apply font-m-plus-rounded;
 }

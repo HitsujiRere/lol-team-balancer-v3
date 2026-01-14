@@ -1,19 +1,67 @@
-import { Input } from "@heroui/react";
-import type { Rank } from "../../types/rank";
+import { cn, Select, SelectItem } from "@heroui/react";
+import {
+  formatRank,
+  formatShortRank,
+  RANKS,
+  type Rank,
+} from "../../types/rank";
+import { RankIcon } from "./components/RankIcon";
+
+const Items = RANKS.map((rank) => ({ rank }));
 
 export const RankSelect = ({
   rank,
   onChange,
 }: {
   rank: Rank;
-  onChange: (rank: Rank) => void;
+  onChange: (rank?: Rank) => void;
 }) => {
   return (
-    <Input
-      aria-label="rank"
+    <Select
+      aria-label="Rank"
+      placeholder="ランクを選択"
+      items={Items}
       value={rank}
-      onValueChange={(rank) => onChange(rank as Rank)}
-      className="max-w-32"
-    />
+      onSelectionChange={(x) => {
+        onChange(x.currentKey as Rank | undefined);
+      }}
+      className="w-40"
+      classNames={{
+        popoverContent: "w-80",
+      }}
+      listboxProps={{
+        classNames: {
+          list: "grid grid-cols-4 gap-2",
+        },
+      }}
+      maxListboxHeight={512}
+      renderValue={(items) => {
+        return items.map((item) => (
+          <div key={item.key}>
+            <div className="flex items-center gap-1">
+              <RankIcon rank={item.data?.rank} />
+              <div>{formatRank(item.data?.rank)}</div>
+            </div>
+          </div>
+        ));
+      }}
+    >
+      {(item) => (
+        <SelectItem
+          key={item.rank}
+          textValue={formatRank(item.rank)}
+          className={cn(item.rank === "UNRANKED" && "col-span-4")}
+        >
+          <div className="flex items-center gap-1">
+            <RankIcon rank={item.rank} />
+            <div>
+              {item.rank === "UNRANKED"
+                ? formatRank(item.rank)
+                : formatShortRank(item.rank)}
+            </div>
+          </div>
+        </SelectItem>
+      )}
+    </Select>
   );
 };
