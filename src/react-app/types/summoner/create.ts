@@ -5,7 +5,7 @@ export const createSummoner = (
 ): Summoner => ({
   name: init.name,
   riotId: init.riotId,
-  level: init.level ?? 0,
+  level: init.level ?? Number.NaN,
   rank: init.rank ?? "UNRANKED",
   isMute: init.isMute ?? false,
 });

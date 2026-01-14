@@ -8,10 +8,10 @@ export const summonersAtom = atomWithImmer<Record<string, Summoner>>({});
 export const summonerFamily = atomFamily((name: string) =>
   atom(
     (get) => get(summonersAtom)[name],
-    (get, set, arg: (summoner: Summoner) => Summoner) => {
+    (get, set, arg: (summoner: Summoner) => void) => {
       if (get(summonersAtom)[name]) {
         set(summonersAtom, (draft) => {
-          draft[name] = arg(draft[name]);
+          arg(draft[name]);
         });
       }
     },

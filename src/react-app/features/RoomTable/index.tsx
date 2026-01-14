@@ -11,13 +11,13 @@ import { useAtomValue } from "jotai";
 import { ScaleIcon, SearchIcon } from "lucide-react";
 import { roomAtom } from "../../stores/room";
 import { summonersAtom } from "../../stores/summoner";
-import { renderCell } from "./utils/renderCell";
+import { renderCell } from "./components/renderCell";
 
 const columns = [
   { name: "名前", uid: "name" },
   { name: "レベル", uid: "level" },
   { name: "ランク", uid: "rank" },
-  { name: "聞き専", uid: "is-mute" },
+  { name: "聞き専", uid: "isMute" },
 ];
 
 export const RoomTable = ({
@@ -66,9 +66,7 @@ export const RoomTable = ({
         >
           {(item) => (
             <TableRow key={item.name}>
-              {(columnKey) => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
-              )}
+              {(column) => <TableCell>{renderCell(item, column)}</TableCell>}
             </TableRow>
           )}
         </TableBody>

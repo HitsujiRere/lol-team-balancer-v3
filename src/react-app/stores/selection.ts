@@ -9,10 +9,10 @@ export const selectionAtom = atomWithImmer<Record<string, Selection>>({});
 export const selectionFamily = atomFamily((name: string) =>
   atom(
     (get) => get(selectionAtom)[name],
-    (get, set, arg: Selection) => {
+    (get, set, arg: (selection: Selection) => void) => {
       if (get(selectionAtom)[name]) {
         set(selectionAtom, (draft) => {
-          draft[name] = arg;
+          arg(draft[name]);
         });
       }
     },
