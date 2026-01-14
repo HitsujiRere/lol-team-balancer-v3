@@ -11,7 +11,7 @@ import { useAtomValue } from "jotai";
 import { ScaleIcon, SearchIcon } from "lucide-react";
 import { roomAtom } from "../../stores/room";
 import { summonersAtom } from "../../stores/summoner";
-import { renderCell } from "./components/renderCell";
+import { SummonerCell } from "./components/SummonerCell";
 
 const columns = [
   { name: "名前", uid: "name" },
@@ -66,7 +66,11 @@ export const RoomTable = ({
         >
           {(item) => (
             <TableRow key={item.name}>
-              {(column) => <TableCell>{renderCell(item, column)}</TableCell>}
+              {(column) => (
+                <TableCell>
+                  <SummonerCell summoner={item} column={column} />
+                </TableCell>
+              )}
             </TableRow>
           )}
         </TableBody>
