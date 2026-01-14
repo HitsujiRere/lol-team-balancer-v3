@@ -1,4 +1,5 @@
-import { cn, Select, SelectItem } from "@heroui/react";
+import { cn, Select, SelectItem, type Selection } from "@heroui/react";
+import { useEffect, useState } from "react";
 import {
   formatRank,
   formatShortRank,
@@ -14,16 +15,23 @@ export const RankSelect = ({
   onChange,
 }: {
   rank: Rank;
-  onChange: (rank?: Rank) => void;
+  onChange: (rank: Rank) => void;
 }) => {
+  const [value, setValue] = useState<Selection>(new Set([rank]));
+
+  useEffect(() => {
+    setValue(new Set([rank]));
+  }, [rank]);
+
   return (
     <Select
       aria-label="Rank"
       placeholder="ランクを選択"
       items={Items}
-      value={rank}
+      selectedKeys={value}
       onSelectionChange={(x) => {
-        onChange(x.currentKey as Rank | undefined);
+        setValue(x);
+        onChange(x.currentKey as Rank);
       }}
       className="w-40"
       classNames={{
@@ -49,7 +57,6 @@ export const RankSelect = ({
       {(item) => (
         <SelectItem
           key={item.rank}
-          textValue={formatRank(item.rank)}
           className={cn(item.rank === "UNRANKED" && "col-span-4")}
         >
           <div className="flex items-center gap-1">
