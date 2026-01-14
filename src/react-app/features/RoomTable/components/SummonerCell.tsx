@@ -1,3 +1,4 @@
+import { Checkbox } from "@heroui/react";
 import { useSetAtom } from "jotai";
 import type { Key } from "react";
 import { LevelInput } from "../../../components/LevelInput";
@@ -14,6 +15,10 @@ export const SummonerCell = ({
   column: Key;
 }) => {
   const setSummoner = useSetAtom(summonerFamily(summoner.name));
+
+  if (column === "select") {
+    return <Checkbox />;
+  }
 
   if (column === "name") {
     return <div>{summoner.name}</div>;

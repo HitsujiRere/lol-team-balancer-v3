@@ -11,6 +11,7 @@ import { useAtomValue } from "jotai";
 import { ScaleIcon, SearchIcon } from "lucide-react";
 import { roomAtom } from "../../stores/room";
 import { summonersAtom } from "../../stores/summoner";
+import { DebugActions } from "./components/DebugActions";
 import { SummonerCell } from "./components/SummonerCell";
 
 const columns = [
@@ -46,6 +47,8 @@ export const RoomTable = ({
           サモナー検索
         </Button>
       </div>
+
+      <DebugActions />
 
       <Table aria-label="Example table with custom cells" removeWrapper>
         <TableHeader columns={columns}>
