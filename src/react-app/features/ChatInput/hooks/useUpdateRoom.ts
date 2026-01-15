@@ -1,6 +1,6 @@
 import { useAtomCallback } from "jotai/utils";
 import { useCallback } from "react";
-import { formatRiotId, type RiotId } from "#domains/riotId";
+import { formatRiotId, type RiotId } from "#models/riotId";
 import { roomAtom } from "../../../stores/room";
 import { selectionAtom } from "../../../stores/selection";
 import { summonersAtom } from "../../../stores/summoner";

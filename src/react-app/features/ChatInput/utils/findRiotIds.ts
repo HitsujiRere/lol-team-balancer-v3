@@ -1,4 +1,4 @@
-import { formatRiotId, parseRiotId, type RiotId } from "#domains/riotId";
+import { formatRiotId, parseRiotId, type RiotId } from "#models/riotId";
 
 export const findRiotIds = (message: string): RiotId[] => {
   const names =

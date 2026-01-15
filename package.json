@@ -52,7 +52,7 @@
   },
   "type": "module",
   "imports": {
-    "#domains/rank": "./src/domains/rank/index.ts",
-    "#domains/riotId": "./src/domains/riotId/index.ts"
+    "#models/rank": "./src/models/rank/index.ts",
+    "#models/riotId": "./src/models/riotId/index.ts"
   }
 }
