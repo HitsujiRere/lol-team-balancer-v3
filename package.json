@@ -47,8 +47,12 @@
     "dev": "vite",
     "lint": "biome lint",
     "format": "biome check --write",
-    "preview": "npm run build && vite preview",
+    "preview": "pnpm run build && vite preview",
     "test": "vitest run"
   },
-  "type": "module"
+  "type": "module",
+  "imports": {
+    "#domains/rank": "./src/domains/rank/index.ts",
+    "#domains/riotId": "./src/domains/riotId/index.ts"
+  }
 }

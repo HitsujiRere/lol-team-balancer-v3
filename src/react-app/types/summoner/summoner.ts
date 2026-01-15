@@ -1,5 +1,5 @@
-import type { Rank } from "../rank";
-import type { RiotId } from "../riotId";
+import type { Rank } from "#domains/rank";
+import type { RiotId } from "#domains/riotId";
 
 export type Summoner = {
   name: string;

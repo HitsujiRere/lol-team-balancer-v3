@@ -10,7 +10,7 @@ import {
   isPlatinum,
   isSilver,
   type Rank,
-} from "../../../types/rank";
+} from "#domains/rank";
 
 export const RankIcon = ({ rank }: { rank?: Rank }) => {
   if (!rank || rank === "UNRANKED") {

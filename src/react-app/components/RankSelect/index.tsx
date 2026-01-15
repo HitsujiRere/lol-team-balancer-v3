@@ -1,11 +1,6 @@
 import { cn, Select, SelectItem, type Selection } from "@heroui/react";
 import { useEffect, useState } from "react";
-import {
-  formatRank,
-  formatShortRank,
-  RANKS,
-  type Rank,
-} from "../../types/rank";
+import { formatRank, formatShortRank, RANKS, type Rank } from "#domains/rank";
 import { RankIcon } from "./components/RankIcon";
 
 const Items = RANKS.map((rank) => ({ rank }));
