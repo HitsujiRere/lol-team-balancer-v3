@@ -1,3 +1,4 @@
+import { createDebugRiotId, formatRiotId } from "#models/riotId";
 import { randomInt } from "../../../utils/random";
 
 const templateNames = [
@@ -14,8 +15,10 @@ const templateNames = [
 ] as const;
 
 export const randomMessage = () => {
-  const names = templateNames.map(
-    (name) => `${name}${randomInt(0, 10)} #DEBUG`,
-  );
+  const names = templateNames
+    .map((name) => `${name}${randomInt(0, 10)}`)
+    .map(createDebugRiotId)
+    .map(formatRiotId);
+
   return names.map((name) => `${name}がロビーに参加しました。`).join("\n");
 };
