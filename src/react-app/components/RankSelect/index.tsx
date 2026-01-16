@@ -52,6 +52,7 @@ export const RankSelect = ({
       {(item) => (
         <SelectItem
           key={item.rank}
+          textValue={formatRank(item.rank)}
           className={cn(item.rank === "UNRANKED" && "col-span-4")}
         >
           <div className="flex items-center gap-1">
