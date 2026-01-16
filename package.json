@@ -34,6 +34,7 @@
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
+    "rollup-plugin-visualizer": "^6.0.5",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
@@ -44,7 +45,7 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "cf-typegen": "wrangler types",
-    "check": "tsc -b && vite build && wrangler deploy --dry-run",
+    "check": "tsc -b && vite build --mode check && wrangler deploy --dry-run",
     "deploy": "wrangler deploy",
     "dev": "vite",
     "lint": "biome lint",
