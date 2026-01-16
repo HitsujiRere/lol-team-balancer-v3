@@ -8,11 +8,12 @@ import {
   TableRow,
 } from "@heroui/react";
 import { useAtomValue } from "jotai";
-import { ScaleIcon, SearchIcon } from "lucide-react";
+import { ScaleIcon } from "lucide-react";
 import { roomAtom } from "../../stores/room";
 import { summonersAtom } from "../../stores/summoner";
 import { DebugActions } from "./components/DebugActions";
 import { columns, HeaderCell } from "./components/HeaderCell";
+import { SearchButton } from "./components/SearchButton";
 import { SummonerCell } from "./components/SummonerCell";
 import { SummonerSelect } from "./components/SummonerSelect";
 
@@ -33,14 +34,13 @@ export const RoomTable = ({
       <div className="flex gap-8">
         <Button
           color="primary"
-          startContent={<ScaleIcon />}
+          startContent={<ScaleIcon className="size-5" />}
           onPress={onOpenGroupEditor}
         >
           チーム分け
         </Button>
-        <Button color="primary" startContent={<SearchIcon />}>
-          サモナー検索
-        </Button>
+
+        <SearchButton />
       </div>
 
       <DebugActions />

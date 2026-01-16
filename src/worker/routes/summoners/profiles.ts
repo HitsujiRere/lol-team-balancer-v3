@@ -49,5 +49,5 @@ export const profilesApp = new Hono<{
     }),
   );
 
-  return ctx.json({ ids, res }, 200);
+  return ctx.json(res, 200);
 });

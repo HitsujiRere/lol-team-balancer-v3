@@ -1,3 +1,4 @@
+import { FETCH_STATUSES } from "./fetchStatus";
 import type { Summoner } from "./summoner";
 
 export const createSummoner = (
@@ -8,4 +9,10 @@ export const createSummoner = (
   level: init.level ?? Number.NaN,
   rank: init.rank ?? "UNRANKED",
   isMute: init.isMute ?? false,
+  fetchStatus: FETCH_STATUSES.IDLE,
+  fetchedLevel: undefined,
+  iconId: undefined,
+  fetchedRank: undefined,
+  rankWins: undefined,
+  rankLosses: undefined,
 });

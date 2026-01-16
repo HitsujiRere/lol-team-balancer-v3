@@ -58,7 +58,10 @@ export const GroupEditor = ({
         <ModalHeader>チームエディター</ModalHeader>
         <ModalBody className="pb-4">
           <div className="flex gap-4">
-            <Button color="primary" startContent={<DicesIcon />}>
+            <Button
+              color="primary"
+              startContent={<DicesIcon className="size-5" />}
+            >
               チーム分け
             </Button>
           </div>
