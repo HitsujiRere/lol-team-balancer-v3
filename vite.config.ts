@@ -11,12 +11,16 @@ export default defineConfig(({ mode }) => ({
     cloudflare(),
     mode === "check" && visualizer({ open: true, filename: "dist/stats.html" }),
   ],
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          react: ["react", "react-dom/client"],
-          heroui: ["@heroui/theme"],
+  environments: {
+    client: {
+      build: {
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              react: ["react", "react-dom/client"],
+              heroui: ["@heroui/theme"],
+            },
+          },
         },
       },
     },
