@@ -2,7 +2,7 @@
 
 import { Hono } from "hono";
 import { logger } from "hono/logger";
-import { profilesApi } from "./routes/profiles";
+import { summonersApp } from "./routes/summoners";
 
 const app = new Hono().basePath("/api");
 
@@ -12,7 +12,7 @@ const routes = app
   .get("/time", (c) => {
     return c.json({ time: new Date().toLocaleString() });
   })
-  .route("/profiles", profilesApi);
+  .route("/summoners", summonersApp);
 
 export type AppType = typeof routes;
 
