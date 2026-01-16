@@ -1,4 +1,4 @@
-import { createDebugRiotId, formatRiotId } from "#models/riotId";
+import { createDebugRiotId, formatRiotId } from "#domain/riotId";
 import { randomInt } from "../../../utils/random";
 
 const templateNames = [

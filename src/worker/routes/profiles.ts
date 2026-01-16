@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
-import { riotIdSchema } from "#models/riotId";
+import { riotIdSchema } from "#domain/riotId";
 import { zValidatorHook } from "../utils/zValidatorHook";
 
 const querySchema = z.object({

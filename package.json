@@ -54,7 +54,7 @@
   },
   "type": "module",
   "imports": {
-    "#models/rank": "./src/models/rank/index.ts",
-    "#models/riotId": "./src/models/riotId/index.ts"
+    "#domain/rank": "./src/domain/rank/index.ts",
+    "#domain/riotId": "./src/domain/riotId/index.ts"
   }
 }

@@ -2,7 +2,7 @@ import { Button } from "@heroui/react";
 import { useAtomValue } from "jotai";
 import { useAtomCallback } from "jotai/utils";
 import { useCallback } from "react";
-import { RANKS, type Rank } from "#models/rank";
+import { RANKS, type Rank } from "#domain/rank";
 import { debugModeAtom } from "../../../stores/debugMode";
 import { summonersAtom } from "../../../stores/summoner";
 import { choice } from "../../../utils/choice";

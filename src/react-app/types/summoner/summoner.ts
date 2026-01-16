@@ -1,5 +1,5 @@
-import type { Rank } from "#models/rank";
-import type { RiotId } from "#models/riotId";
+import type { Rank } from "#domain/rank";
+import type { RiotId } from "#domain/riotId";
 
 export type Summoner = {
   name: string;
