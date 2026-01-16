@@ -3,19 +3,17 @@ import { useAtomCallback } from "jotai/utils";
 import { SearchIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { client } from "../../../lib/hono";
-import { roomAtom } from "../../../stores/room";
 import { summonerFamily } from "../../../stores/summoner";
+import { summonersInRoomAtom } from "../stores/summonersInRoomAtom";
 
 export const SearchButton = () => {
   const [isLoading, setLoading] = useState(false);
 
   const handleSearch = useAtomCallback(
     useCallback(async (get, set) => {
-      const rooms = get(roomAtom);
-
-      const searchSummoners = rooms
-        .map((name) => get(summonerFamily(name)))
-        .filter((s) => s.fetchStatus === "idle" && s.riotId);
+      const searchSummoners = get(summonersInRoomAtom).filter(
+        (s) => s.fetchStatus === "idle" && s.riotId,
+      );
 
       if (searchSummoners.length === 0) return;
 

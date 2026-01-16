@@ -26,7 +26,10 @@ export const ChatInput = () => {
         value={chat}
         onValueChange={handleChatChange}
         placeholder="サモナー #JP1がロビーに参加しました。"
-        classNames={{ input: "field-sizing-content min-h-24" }}
+        classNames={{
+          input: "field-sizing-content min-h-24",
+          clearButton: "[&>svg]:size-6",
+        }}
         isClearable
         disableAutosize
       />

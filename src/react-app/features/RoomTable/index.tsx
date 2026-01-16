@@ -9,25 +9,21 @@ import {
 } from "@heroui/react";
 import { useAtomValue } from "jotai";
 import { ScaleIcon } from "lucide-react";
-import { roomAtom } from "../../stores/room";
-import { summonersAtom } from "../../stores/summoner";
 import { DebugActions } from "./components/DebugActions";
 import { columns, HeaderCell } from "./components/HeaderCell";
 import { SearchButton } from "./components/SearchButton";
 import { SummonerCell } from "./components/SummonerCell";
 import { SummonerSelect } from "./components/SummonerSelect";
+import { selectedNamesAtom } from "./stores/selectedNamesAtom";
+import { summonersInRoomAtom } from "./stores/summonersInRoomAtom";
 
 export const RoomTable = ({
   onOpenGroupEditor,
 }: {
   onOpenGroupEditor: () => void;
 }) => {
-  const rooms = useAtomValue(roomAtom);
-
-  const summoners = useAtomValue(summonersAtom);
-  const summonerList = Object.entries(summoners)
-    .filter(([name]) => rooms.includes(name))
-    .map(([, summoner]) => summoner);
+  const summoners = useAtomValue(summonersInRoomAtom);
+  const selectedNames = useAtomValue(selectedNamesAtom);
 
   return (
     <div className="grid gap-4">
@@ -36,6 +32,7 @@ export const RoomTable = ({
           color="primary"
           startContent={<ScaleIcon className="size-5" />}
           onPress={onOpenGroupEditor}
+          isDisabled={selectedNames.length !== 10}
         >
           チーム分け
         </Button>
@@ -54,7 +51,7 @@ export const RoomTable = ({
           )}
         </TableHeader>
         <TableBody
-          items={summonerList}
+          items={summoners}
           emptyContent={
             "ロビーチャットをコピペすることで簡単に追加できます！😊"
           }

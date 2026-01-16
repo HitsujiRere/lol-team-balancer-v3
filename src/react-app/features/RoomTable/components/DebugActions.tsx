@@ -1,7 +1,5 @@
 import { Button } from "@heroui/react";
-import { useAtomValue } from "jotai";
-import { useAtomCallback } from "jotai/utils";
-import { useCallback } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
 import { RANKS, type Rank } from "#domain/rank";
 import { debugModeAtom } from "../../../stores/debugMode";
 import { summonersAtom } from "../../../stores/summoner";
@@ -11,30 +9,25 @@ import { randomInt } from "../../../utils/random";
 export const DebugActions = () => {
   const debugMode = useAtomValue(debugModeAtom);
 
-  const randomizeLevel = useAtomCallback(
-    useCallback((_get, set) => {
-      set(summonersAtom, (summoners) => {
-        Object.keys(summoners).forEach((name) => {
-          summoners[name].level = randomInt(1, 100);
-        });
-      });
-    }, []),
-  );
+  const setSummoners = useSetAtom(summonersAtom);
 
-  const randomizeRank = useAtomCallback(
-    useCallback(
-      (_get, set, min: Rank = "UNRANKED", max: Rank = "CHALLENGER") => {
-        set(summonersAtom, (summoners) => {
-          Object.keys(summoners).forEach((name) => {
-            summoners[name].rank = choice(
-              RANKS.slice(RANKS.indexOf(min), RANKS.indexOf(max) + 1),
-            );
-          });
-        });
-      },
-      [],
-    ),
-  );
+  const randomizeLevel = () => {
+    setSummoners((summoners) => {
+      Object.keys(summoners).forEach((name) => {
+        summoners[name].level = randomInt(1, 100);
+      });
+    });
+  };
+
+  const randomizeRank = (min: Rank = "UNRANKED", max: Rank = "CHALLENGER") => {
+    setSummoners((summoners) => {
+      Object.keys(summoners).forEach((name) => {
+        summoners[name].rank = choice(
+          RANKS.slice(RANKS.indexOf(min), RANKS.indexOf(max) + 1),
+        );
+      });
+    });
+  };
 
   if (!debugMode) return undefined;
 
