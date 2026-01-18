@@ -9,14 +9,10 @@ import {
   NumberInput,
 } from "@heroui/react";
 import { DicesIcon, GripVerticalIcon } from "lucide-react";
+import { ROLES } from "../../types/role";
+import type { TeamName } from "../../types/teamName";
 
-const SummonerCard = ({
-  name,
-  team,
-}: {
-  name: string;
-  team: "blue" | "red";
-}) => {
+const SummonerCard = ({ name, team }: { name: string; team: TeamName }) => {
   return (
     <div
       className={cn(
@@ -83,12 +79,12 @@ export const GroupEditor = ({
                 <Button variant="faded">コピー</Button>
               </div>
             </div>
-            {["TOP", "JG", "MID", "BOT", "SUP"].map((position) => (
+            {ROLES.map((role) => (
               <div
-                key={position}
+                key={role}
                 className="col-start-2 box-border grid place-items-center rounded-medium border-default border-medium bg-background px-4 py-2"
               >
-                {position}
+                {role}
               </div>
             ))}
             <SummonerCard name="りんご #JP1" team="blue" />
