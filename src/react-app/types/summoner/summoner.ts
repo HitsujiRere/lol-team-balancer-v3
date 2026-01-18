@@ -1,7 +1,6 @@
 import type { Rank } from "#domain/rank";
 import type { RiotId } from "#domain/riotId";
-import type { Priority } from "../priority";
-import type { Role } from "../role";
+import type { GamePriority } from "../priority";
 import type { TeamName } from "../teamName";
 import type { FetchStatus } from "./fetchStatus";
 
@@ -11,7 +10,7 @@ export type Summoner = {
   level: number;
   rank: Rank;
   isMute: boolean;
-  priorities: Record<Role, Priority>;
+  priorities: GamePriority;
   fixedTeam?: TeamName;
 
   fetchStatus: FetchStatus;

@@ -15,9 +15,11 @@ const PRIORITY_UI_MAP = {
 
 export const PrioritySelect = ({
   priority,
+  disabled,
   onChange,
 }: {
   priority: Priority;
+  disabled: boolean;
   onChange: (priority: Priority) => void;
 }) => {
   const [value, setValue] = useState<Selection>(new Set([priority]));
@@ -38,6 +40,7 @@ export const PrioritySelect = ({
           onChange(next);
         }
       }}
+      isDisabled={disabled}
       variant="bordered"
       className="w-20"
       classNames={{

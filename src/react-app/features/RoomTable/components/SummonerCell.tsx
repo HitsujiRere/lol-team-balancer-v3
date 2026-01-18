@@ -5,6 +5,7 @@ import { MuteToggle } from "../../../components/MuteToggle";
 import { RankSelect } from "../../../components/RankSelect";
 import { SummonerInfo } from "../../../components/SummonerInfo";
 import { summonerFamily } from "../../../stores/summoner";
+import { lockedRole } from "../../../types/priority";
 import { ROLES } from "../../../types/role";
 import type { Summoner } from "../../../types/summoner";
 import { PrioritySelect } from "./PrioritySelect";
@@ -71,18 +72,23 @@ export const SummonerCell = ({
     );
   }
 
-  for (const role of ROLES) {
-    if (column === `priorities.${role}`) {
-      return (
-        <PrioritySelect
-          priority={summoner.priorities[role]}
-          onChange={(priority) =>
-            setSummoner((summoner) => {
-              summoner.priorities[role] = priority;
-            })
-          }
-        />
-      );
+  if (column.toString().startsWith("priorities")) {
+    const locked = lockedRole(summoner.priorities);
+
+    for (const role of ROLES) {
+      if (column === `priorities.${role}`) {
+        return (
+          <PrioritySelect
+            priority={summoner.priorities[role]}
+            onChange={(priority) =>
+              setSummoner((summoner) => {
+                summoner.priorities[role] = priority;
+              })
+            }
+            disabled={!!locked && locked !== role}
+          />
+        );
+      }
     }
   }
 
