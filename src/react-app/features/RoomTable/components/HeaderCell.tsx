@@ -11,6 +11,12 @@ export const columns = [
   { name: "レベル", uid: "level" },
   { name: "ランク", uid: "rank" },
   { name: "聞き専", uid: "isMute" },
+  { name: "TOP", uid: "priorities.top" },
+  { name: "JG", uid: "priorities.jg" },
+  { name: "MID", uid: "priorities.mid" },
+  { name: "BOT", uid: "priorities.bot" },
+  { name: "SUP", uid: "priorities.sup" },
+  { name: "チーム固定", uid: "fixedTeam" },
 ];
 
 export const HeaderCell = ({ name, uid }: { name: string; uid: string }) => {

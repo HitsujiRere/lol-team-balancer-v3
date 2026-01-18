@@ -29,9 +29,10 @@ export const RankSelect = ({
         placeholder="ランクを選択"
         items={Items}
         selectedKeys={value}
-        onSelectionChange={(x) => {
-          setValue(x);
-          onChange((x.currentKey as Rank | undefined) ?? "UNRANKED");
+        onSelectionChange={(keys) => {
+          const next = (keys.currentKey as Rank | null) ?? "UNRANKED";
+          setValue(new Set(next));
+          onChange(next);
         }}
         className="w-40"
         classNames={{
@@ -58,7 +59,10 @@ export const RankSelect = ({
           <SelectItem
             key={item.rank}
             textValue={formatRank(item.rank)}
-            className={cn(item.rank === "UNRANKED" && "col-span-4")}
+            className={cn(
+              "data-[hover=true]:bg-inherit data-[hover=true]:outline-primary data-[selectable=true]:focus:bg-inherit data-[selectable=true]:focus:outline-primary",
+              item.rank === "UNRANKED" && "col-span-4",
+            )}
           >
             <div className="flex items-center gap-1">
               <RankIcon rank={item.rank} />

@@ -42,7 +42,11 @@ export const RoomTable = ({
 
       <DebugActions />
 
-      <Table aria-label="Example table with custom cells" removeWrapper>
+      <Table
+        aria-label="Example table with custom cells"
+        removeWrapper
+        className="overflow-auto"
+      >
         <TableHeader columns={columns}>
           {(column) => (
             <TableColumn key={column.uid}>

@@ -5,7 +5,10 @@ import { MuteToggle } from "../../../components/MuteToggle";
 import { RankSelect } from "../../../components/RankSelect";
 import { SummonerInfo } from "../../../components/SummonerInfo";
 import { summonerFamily } from "../../../stores/summoner";
+import { ROLES } from "../../../types/role";
 import type { Summoner } from "../../../types/summoner";
+import { PrioritySelect } from "./PrioritySelect";
+import { TeamTabs } from "./TeamTabs";
 
 export const SummonerCell = ({
   summoner,
@@ -62,6 +65,34 @@ export const SummonerCell = ({
         onChange={(isMute) =>
           setSummoner((summoner) => {
             summoner.isMute = isMute;
+          })
+        }
+      />
+    );
+  }
+
+  for (const role of ROLES) {
+    if (column === `priorities.${role}`) {
+      return (
+        <PrioritySelect
+          priority={summoner.priorities[role]}
+          onChange={(priority) =>
+            setSummoner((summoner) => {
+              summoner.priorities[role] = priority;
+            })
+          }
+        />
+      );
+    }
+  }
+
+  if (column === "fixedTeam") {
+    return (
+      <TeamTabs
+        team={summoner.fixedTeam}
+        onChange={(team) =>
+          setSummoner((summoner) => {
+            summoner.fixedTeam = team;
           })
         }
       />
