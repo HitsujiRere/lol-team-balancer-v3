@@ -1,7 +1,7 @@
 import { Button } from "@heroui/react";
 import { useAtom } from "jotai";
 import { ScaleIcon } from "lucide-react";
-import { debugModeAtom } from "../../stores/debugMode";
+import { debugModeAtom } from "../../stores/debugModeAtom";
 
 export const Header = () => {
   const [debugMode, setDebugMode] = useAtom(debugModeAtom);

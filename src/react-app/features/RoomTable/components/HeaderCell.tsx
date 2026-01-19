@@ -1,8 +1,8 @@
 import { Checkbox, Link } from "@heroui/react";
 import { useAtom, useAtomValue } from "jotai";
 import { toOpggMultisearchLink } from "#domain/riotId";
-import { roomAtom } from "../../../stores/room";
-import { selectionAtom } from "../../../stores/selection";
+import { roomAtom } from "../../../stores/roomAtom";
+import { selectionAtom } from "../../../stores/selectionAtom";
 import { riotIdsInRoomAtom } from "../stores/riotIdsInRoomAtom";
 
 export const columns = [

@@ -1,9 +1,9 @@
 import { useAtomCallback } from "jotai/utils";
 import { useCallback } from "react";
 import { formatRiotId, type RiotId } from "#domain/riotId";
-import { roomAtom } from "../../../stores/room";
-import { selectionAtom } from "../../../stores/selection";
-import { summonersAtom } from "../../../stores/summoner";
+import { roomAtom } from "../../../stores/roomAtom";
+import { selectionAtom } from "../../../stores/selectionAtom";
+import { summonersAtom } from "../../../stores/summonersAtom";
 import { createSummoner } from "../../../types/summoner";
 
 export const useUpdateRoom = () =>

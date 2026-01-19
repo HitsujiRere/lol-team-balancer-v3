@@ -3,7 +3,7 @@ import { useAtomCallback } from "jotai/utils";
 import { SearchIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { client } from "../../../lib/hono";
-import { summonerFamily } from "../../../stores/summoner";
+import { summonerFamily } from "../../../stores/summonersAtom";
 import { summonersInRoomAtom } from "../stores/summonersInRoomAtom";
 
 export const SearchButton = () => {

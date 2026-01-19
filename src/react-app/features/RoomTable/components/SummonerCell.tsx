@@ -4,7 +4,7 @@ import { LevelInput } from "../../../components/LevelInput";
 import { MuteToggle } from "../../../components/MuteToggle";
 import { RankSelect } from "../../../components/RankSelect";
 import { SummonerInfo } from "../../../components/SummonerInfo";
-import { summonerFamily } from "../../../stores/summoner";
+import { summonerFamily } from "../../../stores/summonersAtom";
 import { lockedRole } from "../../../types/priority";
 import { ROLES } from "../../../types/role";
 import type { Summoner } from "../../../types/summoner";

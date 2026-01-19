@@ -1,7 +1,7 @@
 import { Button, Textarea } from "@heroui/react";
 import { useAtomValue } from "jotai";
 import { useState } from "react";
-import { debugModeAtom } from "../../stores/debugMode";
+import { debugModeAtom } from "../../stores/debugModeAtom";
 import { useUpdateRoom } from "./hooks/useUpdateRoom";
 import { findRiotIds } from "./utils/findRiotIds";
 import { randomMessage } from "./utils/randomMessage";

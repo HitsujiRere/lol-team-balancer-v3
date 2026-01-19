@@ -1,8 +1,8 @@
 import { Button } from "@heroui/react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { RANKS, type Rank } from "#domain/rank";
-import { debugModeAtom } from "../../../stores/debugMode";
-import { summonersAtom } from "../../../stores/summoner";
+import { debugModeAtom } from "../../../stores/debugModeAtom";
+import { summonersAtom } from "../../../stores/summonersAtom";
 import { choice } from "../../../utils/choice";
 import { randomInt } from "../../../utils/random";
 

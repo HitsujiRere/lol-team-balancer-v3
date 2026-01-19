@@ -1,7 +1,7 @@
 import { Checkbox } from "@heroui/react";
 import { useAtom } from "jotai";
 import type { Key } from "react";
-import { selectionFamily } from "../../../stores/selection";
+import { selectionFamily } from "../../../stores/selectionAtom";
 
 export const SummonerSelect = ({
   name,
