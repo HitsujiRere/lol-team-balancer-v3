@@ -1,19 +1,16 @@
-import { useDisclosure } from "@heroui/react";
 import { ChatInput } from "./features/ChatInput";
-import { GroupEditor } from "./features/GroupEditor";
+import { MatchupEditor } from "./features/MatchupEditor";
 import { RoomTable } from "./features/RoomTable";
 import { MainLayout } from "./layouts/MainLayout";
 
 function App() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   return (
     <MainLayout>
       <ChatInput />
 
-      <RoomTable onOpenGroupEditor={onOpen} />
+      <RoomTable />
 
-      <GroupEditor isOpen={isOpen} onOpenChange={onOpenChange} />
+      <MatchupEditor />
     </MainLayout>
   );
 }

@@ -7,8 +7,10 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { ScaleIcon } from "lucide-react";
+import { rosterAtom } from "../../stores/rosterAtom";
+import { isOpenMatchupEditorAtom } from "../MatchupEditor";
 import { DebugActions } from "./components/DebugActions";
 import { columns, HeaderCell } from "./components/HeaderCell";
 import { SearchButton } from "./components/SearchButton";
@@ -17,13 +19,12 @@ import { SummonerSelect } from "./components/SummonerSelect";
 import { selectedNamesAtom } from "./stores/selectedNamesAtom";
 import { summonersInRoomAtom } from "./stores/summonersInRoomAtom";
 
-export const RoomTable = ({
-  onOpenGroupEditor,
-}: {
-  onOpenGroupEditor: () => void;
-}) => {
+export const RoomTable = () => {
   const summoners = useAtomValue(summonersInRoomAtom);
   const selectedNames = useAtomValue(selectedNamesAtom);
+
+  const setOpenMatchupEditor = useSetAtom(isOpenMatchupEditorAtom);
+  const setRoster = useSetAtom(rosterAtom);
 
   return (
     <div className="grid gap-4">
@@ -31,7 +32,10 @@ export const RoomTable = ({
         <Button
           color="primary"
           startContent={<ScaleIcon className="size-5" />}
-          onPress={onOpenGroupEditor}
+          onPress={() => {
+            setRoster(selectedNames);
+            setOpenMatchupEditor(true);
+          }}
           isDisabled={selectedNames.length !== 10}
         >
           チーム分け
