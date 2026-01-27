@@ -7,10 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/react";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { ScaleIcon } from "lucide-react";
-import { rosterAtom } from "../../stores/rosterAtom";
-import { isOpenMatchupEditorAtom } from "../MatchupEditor";
+import { useCreateMatchups } from "../MatchupEditor";
 import { DebugActions } from "./components/DebugActions";
 import { columns, HeaderCell } from "./components/HeaderCell";
 import { SearchButton } from "./components/SearchButton";
@@ -23,8 +22,7 @@ export const RoomTable = () => {
   const summoners = useAtomValue(summonersInRoomAtom);
   const selectedNames = useAtomValue(selectedNamesAtom);
 
-  const setOpenMatchupEditor = useSetAtom(isOpenMatchupEditorAtom);
-  const setRoster = useSetAtom(rosterAtom);
+  const createMatchups = useCreateMatchups();
 
   return (
     <div className="grid gap-4">
@@ -32,10 +30,7 @@ export const RoomTable = () => {
         <Button
           color="primary"
           startContent={<ScaleIcon className="size-5" />}
-          onPress={() => {
-            setRoster(selectedNames);
-            setOpenMatchupEditor(true);
-          }}
+          onPress={() => createMatchups(selectedNames)}
           isDisabled={selectedNames.length !== 10}
         >
           チーム分け

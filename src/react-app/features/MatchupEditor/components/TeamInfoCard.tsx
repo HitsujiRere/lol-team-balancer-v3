@@ -1,7 +1,32 @@
 import { Button, cn } from "@heroui/react";
+import { useAtomValue } from "jotai";
+import { toOpggMultisearchLink } from "#domain/riotId";
+import { ROLES } from "../../../types/role";
 import type { TeamName } from "../../../types/teamName";
+import { currentMatchupAtom } from "../stores/currentMatchupAtom";
+import { formationSummonersAtom } from "../stores/formationSummonersAtom";
 
 export const TeamInfoCard = ({ team }: { team: TeamName }) => {
+  const formation = useAtomValue(currentMatchupAtom)[team];
+  const summoners = useAtomValue(formationSummonersAtom(formation));
+
+  const average =
+    ROLES.map((role) => summoners[role]?.level ?? 0).reduce(
+      (sum, cur) => sum + cur,
+      0,
+    ) / 5;
+
+  const handleCopy = () => {
+    const riotIds = ROLES.map((role) => summoners[role]?.riotId).filter(
+      (id) => !!id,
+    );
+    navigator.clipboard.writeText(
+      `# ${team === "blue" ? "ブルーチーム" : "レッドチーム"}
+${ROLES.map((role) => `${role.toUpperCase()}: ${formation[role]}`).join("\n")}
+${toOpggMultisearchLink(riotIds)}`,
+    );
+  };
+
   return (
     <div
       className={cn(
@@ -15,8 +40,10 @@ export const TeamInfoCard = ({ team }: { team: TeamName }) => {
         {team === "blue" ? "ブルーチーム" : "レッドチーム"}
       </div>
       <div className="flex items-center gap-8">
-        <div>平均: GOLD_I</div>
-        <Button variant="faded">メンバーコピー</Button>
+        <div>平均 Lv.{average}</div>
+        <Button variant="faded" onPress={handleCopy}>
+          メンバーコピー
+        </Button>
       </div>
     </div>
   );
