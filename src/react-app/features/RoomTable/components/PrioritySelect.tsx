@@ -5,12 +5,12 @@ import { PRIORITIES, type Priority } from "../../../types/priority";
 
 const Items = Object.values(PRIORITIES).map((priority) => ({ priority }));
 
-const PRIORITY_UI_MAP = {
-  lock: { Icon: LockIcon, color: "stroke-blue-600", comment: "ロール固定" },
-  high: { Icon: LaughIcon, color: "stroke-cyan-600", comment: "最優先" },
-  medium: { Icon: SmileIcon, color: "stroke-green-600", comment: "ふつう" },
-  low: { Icon: FrownIcon, color: "stroke-amber-600", comment: "後回し" },
-  never: { Icon: XIcon, color: "stroke-red-600", comment: "無効" },
+export const PRIORITY_UI_MAP = {
+  lock: { Icon: LockIcon, color: cn("stroke-blue-600"), comment: "ロール固定" },
+  high: { Icon: LaughIcon, color: cn("stroke-cyan-600"), comment: "最優先" },
+  medium: { Icon: SmileIcon, color: cn("stroke-green-600"), comment: "ふつう" },
+  low: { Icon: FrownIcon, color: cn("stroke-amber-600"), comment: "後回し" },
+  never: { Icon: XIcon, color: cn("stroke-red-600"), comment: "無効" },
 } as const;
 
 export const PrioritySelect = ({

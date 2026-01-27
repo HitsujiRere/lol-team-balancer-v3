@@ -12,6 +12,7 @@ import { ScaleIcon } from "lucide-react";
 import { useCreateMatchups } from "../MatchupEditor";
 import { DebugActions } from "./components/DebugActions";
 import { columns, HeaderCell } from "./components/HeaderCell";
+import { PriorityChangeButton } from "./components/PriorityChangeButton";
 import { SearchButton } from "./components/SearchButton";
 import { SummonerCell } from "./components/SummonerCell";
 import { SummonerSelect } from "./components/SummonerSelect";
@@ -26,17 +27,23 @@ export const RoomTable = () => {
 
   return (
     <div className="grid gap-4">
-      <div className="flex gap-8">
-        <Button
-          color="primary"
-          startContent={<ScaleIcon className="size-5" />}
-          onPress={() => createMatchups(selectedNames)}
-          isDisabled={selectedNames.length !== 10}
-        >
-          チーム分け
-        </Button>
+      <div className="flex gap-16">
+        <div className="flex gap-8">
+          <Button
+            color="primary"
+            startContent={<ScaleIcon className="size-5" />}
+            onPress={() => createMatchups(selectedNames)}
+            isDisabled={selectedNames.length !== 10}
+          >
+            チーム分け
+          </Button>
 
-        <SearchButton />
+          <SearchButton />
+        </div>
+
+        <div className="flex gap-8">
+          <PriorityChangeButton />
+        </div>
       </div>
 
       <DebugActions />

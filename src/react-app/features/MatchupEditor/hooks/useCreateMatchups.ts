@@ -11,43 +11,39 @@ export const useCreateMatchups = () => {
 
   return useAtomCallback(
     useCallback(
-      (get, set, roster: string[]) => {
+      (_get, set, roster: string[]) => {
         if (roster.length !== 10) {
           return;
         }
 
-        const preRoster = get(rosterAtom);
+        set(rosterAtom, roster);
 
-        if (roster.some((name) => !preRoster.includes(name))) {
-          set(rosterAtom, roster);
+        const newMatchups = [...Array(100)].map(() => {
+          const shuffledRoster = shuffled(roster);
 
-          const newMatchups = [...Array(100)].map(() => {
-            const shuffledRoster = shuffled(roster);
+          return {
+            // biome-ignore-start lint/style/noNonNullAssertion: shuffledRoster.length === 10
+            blue: {
+              top: shuffledRoster[0]!,
+              jg: shuffledRoster[1]!,
+              mid: shuffledRoster[2]!,
+              bot: shuffledRoster[3]!,
+              sup: shuffledRoster[4]!,
+            },
+            red: {
+              top: shuffledRoster[5]!,
+              jg: shuffledRoster[6]!,
+              mid: shuffledRoster[7]!,
+              bot: shuffledRoster[8]!,
+              sup: shuffledRoster[9]!,
+            },
+            // biome-ignore-end lint/style/noNonNullAssertion: shuffledRoster.length === 10
+          };
+        });
 
-            return {
-              // biome-ignore-start lint/style/noNonNullAssertion: shuffledRoster.length === 10
-              blue: {
-                top: shuffledRoster[0]!,
-                jg: shuffledRoster[1]!,
-                mid: shuffledRoster[2]!,
-                bot: shuffledRoster[3]!,
-                sup: shuffledRoster[4]!,
-              },
-              red: {
-                top: shuffledRoster[5]!,
-                jg: shuffledRoster[6]!,
-                mid: shuffledRoster[7]!,
-                bot: shuffledRoster[8]!,
-                sup: shuffledRoster[9]!,
-              },
-              // biome-ignore-end lint/style/noNonNullAssertion: shuffledRoster.length === 10
-            };
-          });
+        set(goodMatchupsAtom, newMatchups);
 
-          set(goodMatchupsAtom, newMatchups);
-
-          randomizeMatchup();
-        }
+        randomizeMatchup();
 
         set(isOpenMatchupEditorAtom, true);
       },
