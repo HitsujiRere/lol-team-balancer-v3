@@ -1,5 +1,6 @@
 import { Button } from "@heroui/react";
 import { useAtomCallback } from "jotai/utils";
+import { CopyIcon } from "lucide-react";
 import { useCallback } from "react";
 import { toOpggMultisearchLink } from "#domain/riotId";
 import { ROLES } from "../../../types/role";
@@ -28,8 +29,12 @@ ${toOpggMultisearchLink(riotIds)}`;
   );
 
   return (
-    <div className="box-border grid place-items-center rounded-medium border-default-300 border-medium bg-default-100 px-4 py-2">
-      <Button variant="faded" onPress={handleCopy}>
+    <div className="box-border grid place-items-center rounded-medium border-default-300 border-medium bg-default-200 px-4 py-2">
+      <Button
+        variant="faded"
+        startContent={<CopyIcon className="size-5" />}
+        onPress={handleCopy}
+      >
         メンバーコピー
       </Button>
     </div>

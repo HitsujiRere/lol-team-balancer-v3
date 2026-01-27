@@ -4,6 +4,7 @@ import { GripVerticalIcon } from "lucide-react";
 import { LevelInput } from "../../../components/LevelInput";
 import { MuteToggle } from "../../../components/MuteToggle";
 import { RankSelect } from "../../../components/RankSelect";
+import { SummonerInfo } from "../../../components/SummonerInfo";
 import { summonerFamily } from "../../../stores/summonersAtom";
 import type { Role } from "../../../types/role";
 import type { TeamName } from "../../../types/teamName";
@@ -31,7 +32,12 @@ export const SummonerCard = ({
         <Button size="sm" variant="light" isIconOnly>
           <GripVerticalIcon />
         </Button>
-        <div>{name}</div>
+        <SummonerInfo
+          name={summoner.name}
+          riotId={summoner.riotId}
+          iconId={summoner.iconId}
+          fetchStatus={summoner.fetchStatus}
+        />
       </div>
 
       <div className="flex items-center justify-between">

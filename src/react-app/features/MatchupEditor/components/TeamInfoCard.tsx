@@ -1,5 +1,6 @@
 import { Button, cn } from "@heroui/react";
 import { useAtomValue } from "jotai";
+import { CopyIcon } from "lucide-react";
 import { toOpggMultisearchLink } from "#domain/riotId";
 import { ROLES } from "../../../types/role";
 import type { TeamName } from "../../../types/teamName";
@@ -36,12 +37,18 @@ ${toOpggMultisearchLink(riotIds)}`,
           : "border-red-400 bg-red-200",
       )}
     >
-      <div className="text-lg">
+      <div className="font-bold text-lg">
         {team === "blue" ? "ブルーチーム" : "レッドチーム"}
       </div>
       <div className="flex items-center gap-8">
-        <div>平均 Lv.{average}</div>
-        <Button variant="faded" onPress={handleCopy}>
+        <div className="grid h-10 place-items-center rounded-medium bg-default-100 px-4">
+          平均 Lv.{average}
+        </div>
+        <Button
+          variant="faded"
+          startContent={<CopyIcon className="size-5" />}
+          onPress={handleCopy}
+        >
           メンバーコピー
         </Button>
       </div>
